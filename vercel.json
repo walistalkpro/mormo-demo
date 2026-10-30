@@ -1,14 +1,8 @@
 {
   "cleanUrls": true,
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex"
-        }
-      ]
-    }
-  ]
+  "redirects": [
+    { "source": "/m-home", "destination": "/", "permanent": false },
+    { "source": "/m-product", "destination": "/product?id=4737", "permanent": false }
+  ],
+  "headers": [{ "source": "/(.*)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }] }]
 }

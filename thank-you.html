@@ -5,143 +5,92 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <title>অর্ডার হয়েছে | Mormo BD</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23121212'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='900' font-size='36' text-anchor='middle' fill='%23fff'%3EM%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&amp;family=Hind+Siliguri:wght@400;500;600;700&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="app.css">
 <style>
-body{margin:0;background:#F3F0EA}
-a{color:#121212;text-decoration:none}a:hover{color:#8A1C2B}
-@media (max-width:760px){.pad{padding-left:16px !important;padding-right:16px !important}.big{font-size:28px !important}}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.steps li{padding:14px;border-radius:14px;background:#F3F0EA;display:flex;flex-direction:column;gap:4px}
+.steps li.done{background:#121212;color:#fff}
+.done-hero{animation:fd .4s ease-out}
+@keyframes fd{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
 </style>
-<style>[x-cloak]{display:none}</style>
-<script>
-class Base { constructor(props) { this.props = props || {}; } }
-class Component extends Base {
-  constructor(props) {
-    super(props);
-    this.state = { added: {} };
-  }
-  renderVals() {
-    const defs = [
-      { id: 'ny', name: 'Cream New York 3-Piece Set', price: '[অফার দাম]৳', img: 'img/new-york-3-piece-set.webp', alt: 'ক্রিম New York গ্রাফিক ক্রপ হুডি সেট' },
-      { id: 'bk', name: 'Black Brooklyn 3-Piece Set', price: '[অফার দাম]৳', img: 'img/brooklyn-3-piece-set.webp', alt: 'কালো Brooklyn গ্রাফিক ক্রপ হুডি সেট' }
-    ];
-    const added = this.state.added;
-    const offers = defs.map((d) => {
-      const on = !!added[d.id];
-      return {
-        ...d,
-        pressed: on ? 'true' : 'false',
-        bg: on ? '#121212' : '#FFFFFF',
-        fg: on ? '#FFFFFF' : '#121212',
-        cta: on ? 'যোগ হয়েছে · বাদ দিন' : 'এক ক্লিকে যোগ করুন',
-        toggle: () => this.setState({ added: { ...added, [d.id]: !on } })
-      };
-    });
-    const addedItems = defs.filter((d) => added[d.id]);
-    const n = addedItems.length;
-    return {
-      offers,
-      addedItems,
-      addedText: n ? n + 'টি যোগ হয়েছে' : '',
-      totalText: n ? '2,700৳ + অফার + ডেলিভারি' : '2,700৳ + ডেলিভারি'
-    };
-  }
-}
-document.addEventListener('alpine:init', () => {
-  Alpine.data('page', () => {
-    const c = new Component({});
-    const o = {
-      state: c.state, props: {}, gal: null,
-      setState(p) { Object.assign(this.state, p); },
-      get v() { return Component.prototype.renderVals.call(this); }
-    };
-    Object.getOwnPropertyNames(Component.prototype).forEach((k) => {
-      if (k !== 'constructor' && k !== 'renderVals') o[k] = Component.prototype[k];
-    });
-    return o;
-  });
-});
-</script>
+<script defer src="products.js"></script>
+<script defer src="app.js"></script>
 <script defer src="alpine.min.js"></script>
 </head>
-<body>
-<div x-data="page" style="font-family: 'Archivo', 'Hind Siliguri', sans-serif; color: #121212; background: #F3F0EA; min-height: 100vh">
+<body data-page="done">
+<div id="site-header"></div>
 
-<header style="background: #FFFFFF; border-bottom: 1px solid #DCD6CC">
-<div class="pad" style="max-width: 1120px; margin: 0 auto; padding: 14px 32px">
-<a href="index.html" style="font-weight: 900; font-size: 26px; letter-spacing: 0.08em">MORMO<span style="color: #8A1C2B">.</span></a>
-</div>
-</header>
+<main class="wrap" x-data="thanks()" style="padding-top:28px;display:flex;flex-direction:column;gap:22px;max-width:1040px">
+  <template x-if="!o">
+    <div class="box" style="text-align:center;padding:48px 20px"><p style="margin:0 0 14px;font-size:18px;font-weight:700">কোনো অর্ডার পাওয়া যায়নি</p><a class="btn" href="category.html">কেনাকাটা শুরু করুন</a></div>
+  </template>
 
-<main class="pad" style="max-width: 1120px; margin: 0 auto; padding: 40px 32px 72px; display: flex; flex-direction: column; gap: 28px">
+  <template x-if="o">
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <section class="done-hero" style="background:#121212;color:#F3F0EA;border-radius:24px;padding:32px;display:flex;flex-wrap:wrap;gap:22px;align-items:center">
+        <div aria-hidden="true" style="width:72px;height:72px;border-radius:999px;background:#F3F0EA;display:flex;align-items:center;justify-content:center;flex:none"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <div style="flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:6px">
+          <h1 style="margin:0;font-size:clamp(26px,4vw,36px);font-weight:900" x-text="'ধন্যবাদ, '+first+'! অর্ডার পেয়েছি।'"></h1>
+          <p style="margin:0;font-size:17px;line-height:1.6;color:#CFC8BC">অর্ডার নম্বর <b style="color:#fff" x-text="'#'+o.no"></b>। শীঘ্রই <b style="color:#fff" x-text="o.phone"></b> নম্বরে ফোন করে কনফার্ম করা হবে।</p>
+        </div>
+      </section>
 
-<section style="background: #121212; color: #F3F0EA; border-radius: 22px; padding: 36px; display: flex; flex-wrap: wrap; gap: 24px; align-items: center">
-<div aria-hidden="true" style="width: 72px; height: 72px; border-radius: 999px; background: #F3F0EA; display: flex; align-items: center; justify-content: center; flex: none"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></div>
-<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 8px">
-<h1 class="big" style="margin: 0; font-size: 36px; font-weight: 800">ধন্যবাদ, [নাম]! অর্ডার পেয়েছি।</h1>
-<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #CFC8BC">অর্ডার নম্বর <strong style="color: #FFFFFF">#[অর্ডার নং]</strong>। শীঘ্রই [01XXXXXXXXX] নম্বরে ফোন করে কনফার্ম করব। ফোনটা ধরবেন, প্লিজ।</p>
-</div>
-</section>
+      <section class="box" aria-labelledby="st-h">
+        <h2 id="st-h" style="margin:0 0 14px;font-size:20px;font-weight:900">এরপর কী হবে</h2>
+        <ol class="steps"><li class="done"><small style="opacity:.75">ধাপ ১ · হয়ে গেছে</small><b>অর্ডার পেয়েছি</b></li><li><small class="muted">ধাপ ২</small><b>ফোনে কনফার্ম</b></li><li><small class="muted">ধাপ ৩</small><b>কুরিয়ারে পাঠানো</b></li><li><small class="muted">ধাপ ৪ · [X–Y] দিনে</small><b>হাতে পেয়ে টাকা দিন</b></li></ol>
+      </section>
 
-<section aria-labelledby="step-h" style="background: #FFFFFF; border-radius: 18px; padding: 24px">
-<h2 id="step-h" style="margin: 0 0 18px; font-size: 20px; font-weight: 800">এরপর কী হবে</h2>
-<ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px">
-<li style="display: flex; flex-direction: column; gap: 6px; padding: 14px; border-radius: 14px; background: #121212; color: #FFFFFF"><span style="font-size: 13px; opacity: 0.75">ধাপ ১ · হয়ে গেছে</span><span style="font-weight: 700">অর্ডার পেয়েছি</span></li>
-<li style="display: flex; flex-direction: column; gap: 6px; padding: 14px; border-radius: 14px; background: #F3F0EA"><span style="font-size: 13px; color: #5A5650">ধাপ ২</span><span style="font-weight: 700">ফোনে কনফার্ম</span></li>
-<li style="display: flex; flex-direction: column; gap: 6px; padding: 14px; border-radius: 14px; background: #F3F0EA"><span style="font-size: 13px; color: #5A5650">ধাপ ৩</span><span style="font-weight: 700">কুরিয়ারে পাঠানো</span></li>
-<li style="display: flex; flex-direction: column; gap: 6px; padding: 14px; border-radius: 14px; background: #F3F0EA"><span style="font-size: 13px; color: #5A5650">ধাপ ৪ · [X–Y] দিনে</span><span style="font-weight: 700">হাতে পেয়ে টাকা দিন</span></li>
-</ol>
-</section>
+      <section x-show="offers.length" style="background:#FFF7E6;border:1.5px solid #E9C98B;border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:14px" aria-labelledby="up-h">
+        <div><p style="margin:0 0 4px;font-size:13px;font-weight:800;color:#8A4B08">একবারের অফার · একই পার্সেলে</p><h2 id="up-h" style="margin:0;font-size:22px;font-weight:900">এই অর্ডারেই আরেকটা যোগ করুন</h2><p class="muted" style="margin:6px 0 0">নতুন করে ঠিকানা দিতে হবে না, একই ডেলিভারিতে আসবে।</p></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
+          <template x-for="f in offers" :key="f.id">
+            <article style="background:#fff;border-radius:16px;padding:12px;display:flex;gap:12px;align-items:center">
+              <img :src="f.img" :alt="f.t" style="width:84px;height:105px;object-fit:cover;border-radius:10px;flex:none" loading="lazy">
+              <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
+                <b style="font-size:14px;line-height:1.35" x-text="f.t"></b><b x-text="M.fmt(f.p)"></b>
+                <div style="display:flex;gap:6px;flex-wrap:wrap" x-show="!added(f.id)"><template x-for="s in f.sizes.slice(0,5)"><button type="button" class="size" style="min-width:42px;height:38px;font-size:13px" @click="addExtra(f, s)" :aria-label="'সাইজ '+s+' যোগ করুন'" x-text="s"></button></template></div>
+                <span x-show="added(f.id)" style="color:#1F6B2A;font-weight:800;font-size:14px">যোগ হয়েছে ✓</span>
+              </div>
+            </article>
+          </template>
+        </div>
+      </section>
 
-<section aria-labelledby="up-h" style="background: #FFF7E6; border: 1.5px solid #E9C98B; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: end">
-<div>
-<p style="margin: 0 0 4px; font-size: 14px; font-weight: 700; color: #8A4B08">শুধু এখনই, একবারের অফার</p>
-<h2 id="up-h" style="margin: 0; font-size: 24px; font-weight: 800">একই পার্সেলে আরেকটা যোগ করুন</h2>
-<p style="margin: 6px 0 0; color: #3D3A35">নতুন করে ঠিকানা দিতে হবে না। একই ডেলিভারিতে আসবে, ডেলিভারি চার্জ আর লাগবে না।</p>
-</div>
-<span aria-live="polite" style="font-weight: 700; color: #1F6B2A"><span x-text="v.addedText"></span></span>
-</div>
-<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px">
-<template x-for="o in v.offers">
-<article style="background: #FFFFFF; border-radius: 16px; overflow: hidden; display: flex; gap: 14px; padding: 12px; align-items: center">
-<img :src="o.img" :alt="o.alt" style="width: 96px; height: 120px; object-fit: cover; border-radius: 10px; flex: none">
-<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px">
-<div style="font-weight: 600; font-size: 15px; line-height: 1.4"><span x-text="o.name"></span></div>
-<div style="font-weight: 800"><span x-text="o.price"></span></div>
-<button type="button" :aria-pressed="o.pressed" @click="o.toggle($event)" :style="`height: 44px; border-radius: 999px; border: 1.5px solid #121212; background: ${o.bg}; color: ${o.fg}; font: inherit; font-weight: 700; font-size: 14px; cursor: pointer`"><span x-text="o.cta"></span></button>
-</div>
-</article>
-</template>
-</div>
-</section>
-
-<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
-<section aria-labelledby="ord-h" style="flex: 2 1 420px; min-width: 0; background: #FFFFFF; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
-<h2 id="ord-h" style="margin: 0; font-size: 20px; font-weight: 800">অর্ডারের বিবরণ</h2>
-<div style="display: flex; gap: 14px; align-items: center">
-<img src="img/cutout-set-maroon.webp" alt="মেরুন কাটআউট হুডি বডিস্যুট সেট" style="width: 64px; height: 80px; object-fit: cover; border-radius: 10px; flex: none">
-<div style="flex: 1; min-width: 0"><div style="font-weight: 600">Cutout Hoodie Bodysuit Set</div><div style="font-size: 14px; color: #5A5650">মেরুন · M · ১টি</div></div>
-<div style="font-weight: 700">2,700৳</div>
-</div>
-<template x-for="a in v.addedItems">
-<div style="display: flex; gap: 14px; align-items: center">
-<img :src="a.img" :alt="a.alt" style="width: 64px; height: 80px; object-fit: cover; border-radius: 10px; flex: none">
-<div style="flex: 1; min-width: 0"><div style="font-weight: 600"><span x-text="a.name"></span></div><div style="font-size: 14px; color: #1F6B2A">এইমাত্র যোগ হলো</div></div>
-<div style="font-weight: 700"><span x-text="a.price"></span></div>
-</div>
-</template>
-<div style="border-top: 1.5px solid #121212; padding-top: 12px; display: flex; justify-content: space-between; align-items: baseline"><span style="font-weight: 700">ডেলিভারিতে দেবেন</span><span style="font-weight: 900; font-size: 24px"><span x-text="v.totalText"></span></span></div>
-<p style="margin: 0; font-size: 14px; color: #5A5650">ঠিকানা: [ক্রেতার ঠিকানা] · পেমেন্ট: ক্যাশ অন ডেলিভারি</p>
-</section>
-
-<section aria-label="সাহায্য" style="flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
-<a href="#" style="display: flex; align-items: center; justify-content: center; gap: 10px; height: 56px; border-radius: 999px; background: #E9F5EC; color: #14532D; font-weight: 700"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#14532D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"></path></svg>WhatsApp-এ অর্ডার নিয়ে কথা বলুন</a>
-<a href="#" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 999px; border: 1.5px solid #121212; font-weight: 700">অর্ডার ট্র্যাক করুন</a>
-<a href="index.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 999px; font-weight: 600; text-decoration: underline">আরও কেনাকাটা করুন</a>
-</section>
-</div>
+      <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+        <section class="box" style="flex:2 1 400px;min-width:0;display:flex;flex-direction:column;gap:12px" aria-labelledby="od-h">
+          <h2 id="od-h" style="margin:0;font-size:20px;font-weight:900">অর্ডারের বিবরণ</h2>
+          <template x-for="it in all"><div class="line-item"><img :src="it.img" alt=""><div style="flex:1;min-width:0"><div style="font-weight:700;font-size:14px;line-height:1.35" x-text="it.t"></div><div class="muted" style="font-size:13px" x-text="'সাইজ '+it.size+' · '+it.qty+'টি'+(it.extra?' · এইমাত্র যোগ হলো':'')"></div></div><b x-text="M.fmt(it.p*it.qty)"></b></div></template>
+          <div style="display:flex;justify-content:space-between;font-size:15px"><span x-text="'ডেলিভারি ('+o.zone+')'"></span><span x-text="M.fmt(o.fee)"></span></div>
+          <div style="border-top:1.5px solid #121212;padding-top:12px;display:flex;justify-content:space-between;align-items:baseline"><b>ডেলিভারিতে দেবেন</b><span style="font-size:24px;font-weight:900" x-text="M.fmt(total)"></span></div>
+          <p class="muted" style="margin:0;font-size:14px" x-text="'ঠিকানা: '+o.address"></p>
+        </section>
+        <section style="flex:1 1 260px;min-width:0;display:flex;flex-direction:column;gap:10px" aria-label="সাহায্য">
+          <a :href="M.WA+'?text='+encodeURIComponent('আমার অর্ডার #'+o.no+' নিয়ে জানতে চাই')" style="display:flex;align-items:center;justify-content:center;gap:10px;height:56px;border-radius:999px;background:#E9F5EC;color:#14532D;font-weight:800">WhatsApp-এ অর্ডার নিয়ে কথা বলুন</a>
+          <a href="category.html" class="btn line block" style="height:56px">আরও কেনাকাটা করুন</a>
+        </section>
+      </div>
+    </div>
+  </template>
 </main>
-</div>
+
+<div id="site-footer"></div>
+<script>
+function thanks() {
+  const o = M.ls.get('mormo_last_order', null);
+  const have = o ? o.items.map((i) => i.id) : [];
+  return {
+    o, extra: o ? (o.extra || []) : [],
+    get first() { return (this.o.name || '').split(' ')[0] || 'আপনাকে'; },
+    offers: o ? M.P.filter((p) => p.stock && p.cat === 'Winter Collection' && !have.includes(p.id)).slice(0, 2) : [],
+    added(id) { return this.extra.some((e) => e.id === id); },
+    addExtra(f, s) { this.extra.push({ id: f.id, t: f.t, img: f.img, size: s, qty: 1, p: f.p, extra: true }); this.o.extra = this.extra; M.ls.set('mormo_last_order', this.o); },
+    get all() { return this.o.items.concat(this.extra); },
+    get total() { return this.o.total + this.extra.reduce((s, e) => s + e.p, 0); }
+  };
+}
+</script>
 </body>
 </html>

@@ -4,142 +4,101 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Winter Collection | Mormo BD</title>
+<title>শপ | Mormo BD</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23121212'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='900' font-size='36' text-anchor='middle' fill='%23fff'%3EM%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&amp;family=Hind+Siliguri:wght@400;500;600;700&amp;display=swap">
-<style>
-body{margin:0;background:#F3F0EA}
-a{color:#121212;text-decoration:none}a:hover{color:#8A1C2B}
-@media (max-width:760px){.pad{padding-left:16px !important;padding-right:16px !important}.ch1{font-size:30px !important}}
-</style>
-<style>[x-cloak]{display:none}</style>
-<script>
-class Base { constructor(props) { this.props = props || {}; } }
-class Component extends Base {
-  constructor(props) {
-    super(props);
-    this.state = { color: 'all' };
-  }
-  renderVals() {
-    const img = {
-      maroon: 'img/cutout-set-maroon.webp',
-      black: 'img/cutout-set-black.webp',
-      beige: 'img/cutout-set-beige.webp'
-    };
-    const products = [
-      { id: 'cut', name: 'Cutout Hoodie Bodysuit & Text Print Wide-Leg Pants Set', price: '2,700৳', old: '3,500৳', badge: '-23%', href: 'Product.dc.html',
-        colors: ['maroon', 'black', 'beige'], imgs: img, alt: 'কাটআউট হুডি বডিস্যুট আর ওয়াইড লেগ প্যান্ট সেট' },
-      { id: 'ny', name: 'Cream New York Graphic Crop Hoodie, Cami Top & Joggers 3-Piece Set', price: '[দাম]৳', old: '', badge: '', href: '#',
-        colors: ['cream'], imgs: { cream: 'img/new-york-3-piece-set.webp' }, alt: 'ক্রিম New York গ্রাফিক ক্রপ হুডি সেট' },
-      { id: 'bk', name: 'Black Brooklyn Graphic Crop Hoodie, Cami Top & Cargo Pants 3-Piece Set', price: '[দাম]৳', old: '', badge: '', href: '#',
-        colors: ['black'], imgs: { black: 'img/brooklyn-3-piece-set.webp' }, alt: 'কালো Brooklyn গ্রাফিক ক্রপ হুডি সেট' }
-    ];
-    const names = { maroon: 'মেরুন', black: 'কালো', beige: 'বেইজ', cream: 'ক্রিম' };
-    const fdefs = [
-      { id: 'all', label: 'সব রঙ', hex: 'conic-gradient(#7A1E2A 0 33%, #151515 0 66%, #D8C7AE 0)' },
-      { id: 'black', label: 'কালো', hex: '#151515' },
-      { id: 'maroon', label: 'মেরুন', hex: '#7A1E2A' },
-      { id: 'beige', label: 'বেইজ', hex: '#D8C7AE' },
-      { id: 'cream', label: 'ক্রিম', hex: '#EFE6D6' }
-    ];
-    const c = this.state.color;
-    const filters = fdefs.map((f) => {
-      const on = f.id === c;
-      return { ...f, pressed: on ? 'true' : 'false', bg: on ? '#121212' : '#FFFFFF', fg: on ? '#FFFFFF' : '#121212', border: on ? '#121212' : '#CFC8BC', pick: () => this.setState({ color: f.id }) };
-    });
-    const items = products
-      .filter((p) => c === 'all' || p.colors.includes(c))
-      .map((p) => {
-        const shown = c !== 'all' && p.imgs[c] ? c : p.colors[0];
-        return {
-          ...p,
-          img: p.imgs[shown],
-          alt: names[shown] + ' ' + p.alt,
-          hasBadge: !!p.badge,
-          colorsText: p.colors.length > 1 ? p.colors.length + 'টি রঙে: ' + p.colors.map((x) => names[x]).join(', ') : names[p.colors[0]]
-        };
-      });
-    return {
-      filters,
-      items,
-      empty: items.length === 0,
-      countText: items.length + 'টি প্রোডাক্ট'
-    };
-  }
-}
-document.addEventListener('alpine:init', () => {
-  Alpine.data('page', () => {
-    const c = new Component({});
-    const o = {
-      state: c.state, props: {}, gal: null,
-      setState(p) { Object.assign(this.state, p); },
-      get v() { return Component.prototype.renderVals.call(this); }
-    };
-    Object.getOwnPropertyNames(Component.prototype).forEach((k) => {
-      if (k !== 'constructor' && k !== 'renderVals') o[k] = Component.prototype[k];
-    });
-    return o;
-  });
-});
-</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="app.css">
+<script defer src="products.js"></script>
+<script defer src="app.js"></script>
 <script defer src="alpine.min.js"></script>
 </head>
-<body>
-<div x-data="page" style="font-family: 'Archivo', 'Hind Siliguri', sans-serif; color: #121212; background: #F3F0EA; min-height: 100vh">
+<body data-page="cat">
+<div id="site-header"></div>
 
-<header style="background: #FFFFFF; border-bottom: 1px solid #DCD6CC">
-<div class="pad" style="max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px">
-<a href="index.html" style="font-weight: 900; font-size: 26px; letter-spacing: 0.08em">MORMO<span style="color: #8A1C2B">.</span></a>
-<a href="checkout.html" aria-label="কার্ট, ২টি প্রোডাক্ট" style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 999px; background: #121212"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14l-1.2 12.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8L5 7z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg></a>
-</div>
-</header>
+<main class="wrap" x-data="shop()" x-init="init()" style="padding-top:20px">
+  <nav aria-label="Breadcrumb" class="muted" style="font-size:14px;display:flex;gap:8px;margin-bottom:12px"><a href="index.html">হোম</a><span aria-hidden="true">/</span><span aria-current="page" style="color:#121212" x-text="heading"></span></nav>
+  <h1 style="margin:0 0 8px;font-size:clamp(28px,5vw,44px);line-height:1.1;font-weight:900" x-text="heading"></h1>
+  <p class="muted" style="margin:0 0 18px;max-width:640px;line-height:1.6" x-text="intro"></p>
 
-<main class="pad" style="max-width: 1280px; margin: 0 auto; padding: 20px 32px 64px">
-<nav aria-label="Breadcrumb" style="font-size: 14px; color: #5A5650; margin-bottom: 16px; display: flex; gap: 8px"><a href="index.html" style="color: #5A5650">হোম</a><span aria-hidden="true">/</span><span aria-current="page" style="color: #121212">Winter Collection</span></nav>
+  <div style="position:sticky;top:66px;z-index:5;background:#F3F0EA;padding:10px 0 12px;border-bottom:1px solid #DCD6CC;margin-bottom:20px;display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid #DCD6CC;border-radius:999px;padding:0 16px;height:46px">
+      <label for="sq" class="sr">প্রোডাক্ট খুঁজুন</label>
+      <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5A5650" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="sq" x-ref="q" type="search" x-model.debounce.200ms="q" @input="shown=24" placeholder="খুঁজুন: baggy, hoodie, black, crop…" style="border:0;background:transparent;font:inherit;font-size:16px;flex:1;min-width:0;outline:none">
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+      <div class="hs" role="group" aria-label="ক্যাটাগরি" style="scroll-snap-type:none;flex:1;min-width:0">
+        <template x-for="c in chips"><button type="button" class="chip" :class="c.on && 'on'" :aria-pressed="c.on" @click="setCat(c.id)"><span x-text="c.label"></span><span style="opacity:.6;font-weight:600" x-text="c.n"></span></button></template>
+      </div>
+      <label class="desk" style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px">সাজান
+        <select x-model="sort" style="height:42px;border-radius:999px;border:1.5px solid #CFC8BC;background:#fff;padding:0 12px;font:inherit;font-size:14px">
+          <option value="new">নতুন আগে</option><option value="low">দাম: কম থেকে বেশি</option><option value="high">দাম: বেশি থেকে কম</option>
+        </select>
+      </label>
+    </div>
+    <div class="mob hs" style="scroll-snap-type:none" role="group" aria-label="সাজান">
+      <button type="button" class="chip" :class="sort==='new'&&'on'" @click="sort='new'">নতুন আগে</button>
+      <button type="button" class="chip" :class="sort==='low'&&'on'" @click="sort='low'">দাম কম</button>
+      <button type="button" class="chip" :class="sort==='high'&&'on'" @click="sort='high'">দাম বেশি</button>
+    </div>
+  </div>
 
-<div style="display: flex; flex-direction: column; gap: 10px; max-width: 760px; margin-bottom: 28px">
-<h1 class="ch1" style="margin: 0; font-size: 44px; line-height: 1.1; font-weight: 800">Winter Collection: মেয়েদের হুডি সেট ও কো-অর্ড</h1>
-<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #5A5650">গরম, আরামদায়ক আর ট্রেন্ডি। হুডি বডিস্যুট, গ্রাফিক ক্রপ হুডি আর ওয়াইড লেগ প্যান্টের সেট। সারা দেশে ক্যাশ অন ডেলিভারি।</p>
-</div>
+  <p aria-live="polite" class="muted" style="margin:0 0 14px;font-size:14px" x-text="list.length+'টি প্রোডাক্ট'"></p>
 
-<div style="position: sticky; top: 0; z-index: 5; background: #F3F0EA; padding: 10px 0 14px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; border-bottom: 1px solid #DCD6CC; margin-bottom: 24px">
-<div role="group" aria-label="রঙ দিয়ে ফিল্টার" style="display: flex; gap: 8px; flex-wrap: wrap">
-<template x-for="f in v.filters">
-<button type="button" :aria-pressed="f.pressed" @click="f.pick($event)" :style="`height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid ${f.border}; background: ${f.bg}; color: ${f.fg}; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px`"><span aria-hidden="true" :style="`width: 14px; height: 14px; border-radius: 999px; background: ${f.hex}; border: 1px solid #00000033`"></span><span x-text="f.label"></span></button>
-</template>
-</div>
-<div style="display: flex; align-items: center; gap: 10px">
-<span aria-live="polite" style="font-size: 14px; color: #5A5650"><span x-text="v.countText"></span></span>
-<label for="sort" style="font-size: 14px; font-weight: 600">সাজান</label>
-<select id="sort" style="height: 44px; border-radius: 999px; border: 1.5px solid #CFC8BC; background: #FFFFFF; padding: 0 14px; font: inherit; font-size: 14px; color: #121212">
-<option>নতুন আগে</option><option>দাম: কম থেকে বেশি</option><option>দাম: বেশি থেকে কম</option><option>সবচেয়ে জনপ্রিয়</option>
-</select>
-</div>
-</div>
+  <div class="grid">
+    <template x-for="p in list.slice(0, shown)" :key="p.id">
+      <article class="card">
+        <div class="ph">
+          <a :href="M.url(p)"><img :src="p.img" :alt="p.t" loading="lazy"></a>
+          <span class="tag out" x-show="!p.stock">স্টক শেষ</span>
+          <button type="button" class="heart" aria-label="পছন্দের তালিকায় রাখুন" :aria-pressed="$store.shop.isWished(p.id)" @click="$store.shop.toggleWish(p.id)"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" stroke="#8A1C2B" stroke-width="2" stroke-linejoin="round" :fill="$store.shop.isWished(p.id)?'#8A1C2B':'none'"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button>
+          <button type="button" class="fab" x-show="p.stock" :aria-label="p.t+' দ্রুত কার্টে যোগ করুন'" @click="$store.shop.openQuick(p.id)">+</button>
+        </div>
+        <a :href="M.url(p)" class="nm" x-text="p.t"></a>
+        <div class="pr" x-text="M.fmt(p.p)"></div>
+      </article>
+    </template>
+  </div>
 
-<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px">
-<template x-for="p in v.items">
-<article style="display: flex; flex-direction: column; gap: 10px">
-<a :href="p.href" style="position: relative; display: block; border-radius: 16px; overflow: hidden; background: #E6DFD3; aspect-ratio: 4 / 5">
-<img :src="p.img" :alt="p.alt" style="width: 100%; height: 100%; object-fit: cover; display: block">
-<template x-if="p.hasBadge"><span style="position: absolute; top: 12px; left: 12px; background: #8A1C2B; color: #FFFFFF; font-size: 13px; font-weight: 700; padding: 5px 10px; border-radius: 999px"><span x-text="p.badge"></span></span></template>
-</a>
-<div style="font-size: 13px; color: #5A5650"><span x-text="p.colorsText"></span></div>
-<a :href="p.href" style="font-weight: 600; font-size: 16px; line-height: 1.4"><span x-text="p.name"></span></a>
-<div style="display: flex; gap: 10px; align-items: baseline"><span style="font-weight: 800; font-size: 19px"><span x-text="p.price"></span></span><span style="color: #5A5650; font-size: 15px; text-decoration: line-through"><span x-text="p.old"></span></span></div>
-</article>
-</template>
-</div>
-<template x-if="v.empty">
-<p style="text-align: center; color: #5A5650; padding: 40px 0">এই রঙে এখন কিছু নেই। অন্য রঙ দেখুন।</p>
-</template>
-
-<section aria-labelledby="about-h" style="margin-top: 64px; background: #FFFFFF; border-radius: 20px; padding: 28px; max-width: 880px">
-<h2 id="about-h" style="margin: 0 0 10px; font-size: 22px; font-weight: 800">মেয়েদের শীতের হুডি সেট কেনার আগে</h2>
-<p style="margin: 0 0 10px; line-height: 1.8; color: #3D3A35">হুডি সেট বাছার সময় দেখুন কাপড় ফ্লিস নাকি স্ট্রেচ কটন। ফ্লিস বেশি গরম, স্ট্রেচ কটন শরীরে বেশি মানায়। ওভারসাইজড লুক চাইলে এক সাইজ বড় নিন।</p>
-<p style="margin: 0; line-height: 1.8; color: #3D3A35">প্রতিটা প্রোডাক্ট পেজে ইঞ্চিতে সাইজ চার্ট আছে। প্রশ্ন থাকলে WhatsApp করুন।</p>
-</section>
+  <div x-show="!list.length" style="text-align:center;padding:60px 0">
+    <p class="muted" x-text="wish ? 'পছন্দের তালিকা খালি। প্রোডাক্টের ♥ চাপলে এখানে জমা হবে।' : 'কিছু পাওয়া যায়নি। অন্য শব্দ দিয়ে খুঁজুন।'"></p>
+    <a href="category.html" class="btn" style="margin-top:10px">সব প্রোডাক্ট দেখুন</a>
+  </div>
+  <div x-show="list.length > shown" style="text-align:center;margin-top:28px">
+    <button type="button" class="btn line" @click="shown += 24" x-text="'আরও দেখুন ('+(list.length-shown)+'টি বাকি)'"></button>
+  </div>
 </main>
-</div>
+
+<div id="site-footer"></div>
+<script>
+function shop() {
+  const INTRO = {
+    'Baggy Pant': 'মেয়েদের বেগি আর ওয়াইড লেগ প্যান্ট। প্রিন্ট, প্লেইন আর কার্গো, XS থেকে 5XL।',
+    'Crop Top Set': 'ক্রপ টপ আর প্যান্টের কো-অর্ড সেট। একটা সেটেই পুরো লুক।',
+    'Winter Collection': 'হুডি, সোয়েটশার্ট আর ওয়াইড লেগ প্যান্টের শীতের সেট।',
+    'Combo Set': 'একসাথে কিনলে বেশি সুবিধা, কম্বো সেট।',
+    'Shorts': 'হালকা আর আরামের শর্টস।'
+  };
+  return {
+    cat: M.q('cat') || '', q: M.q('q') || '', sort: 'new', shown: 24, wish: !!M.q('wish'),
+    init() { if (M.q('focus')) this.$nextTick(() => this.$refs.q.focus()); },
+    setCat(c) { this.cat = c; this.wish = false; this.shown = 24; history.replaceState(null, '', c ? '?cat=' + encodeURIComponent(c) : 'category.html'); },
+    get heading() { return this.wish ? 'পছন্দের তালিকা' : (this.q && !this.cat ? '“' + this.q + '” খোঁজার ফল' : (this.cat || 'সব প্রোডাক্ট')); },
+    get intro() { return this.wish ? 'যেগুলো ♥ দিয়েছেন। এই ফোনেই জমা থাকে।' : (INTRO[this.cat] || 'Mormo BD-র সব স্ট্রিটওয়্যার। সারা দেশে ক্যাশ অন ডেলিভারি।'); },
+    get chips() {
+      const base = this.q ? M.search(this.q) : M.P;
+      return [{ id: '', label: 'সব', n: base.length }].concat(M.CATS.map((c) => ({ id: c, label: c, n: base.filter((p) => p.cat === c).length })))
+        .filter((c) => c.n).map((c) => ({ ...c, on: !this.wish && c.id === this.cat }));
+    },
+    get list() {
+      let l = this.wish ? M.P.filter((p) => this.$store.shop.wish.includes(p.id)) : (this.q ? M.search(this.q) : M.P);
+      if (this.cat && !this.wish) l = l.filter((p) => p.cat === this.cat);
+      l = l.slice().sort((a, b) => (b.stock - a.stock) || (this.sort === 'low' ? a.p - b.p : this.sort === 'high' ? b.p - a.p : b.id - a.id));
+      return l;
+    }
+  };
+}
+</script>
 </body>
 </html>
