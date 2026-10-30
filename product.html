@@ -65,6 +65,11 @@ details summary{list-style:none;cursor:pointer}details summary::-webkit-details-
         <div style="display:flex;gap:12px;align-items:baseline;flex-wrap:wrap"><span style="font-size:30px;font-weight:900" x-text="M.fmt(p.p)"></span><span x-show="!p.stock" style="background:#5A5650;color:#fff;font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px">স্টক শেষ</span></div>
       </div>
 
+      <div style="display:flex;flex-direction:column;gap:8px" x-show="sibs.length > 1">
+        <strong>রঙ: <span class="muted" style="font-weight:400" x-text="p.c+' · '+sibs.length+'টি রঙে পাওয়া যায়'"></span></strong>
+        <div class="hs" role="group" aria-label="রঙ বাছুন" style="scroll-snap-type:none"><template x-for="v in sibs" :key="v.id"><button type="button" class="swatch" :class="v.id===p.id && 'on'" :aria-pressed="v.id===p.id" :aria-label="v.c+(v.stock?'':' (স্টক শেষ)')" @click="pick(v)"><img :src="v.img" alt=""><span x-text="v.c"></span></button></template></div>
+      </div>
+
       <div style="display:flex;flex-direction:column;gap:10px" x-show="p.sizes.length">
         <div style="display:flex;justify-content:space-between;align-items:center"><strong>সাইজ: <span class="muted" style="font-weight:400" x-text="size || 'বাছাই করা হয়নি'"></span></strong><a href="#chart" x-show="hasChart" @click="chartOpen=true" style="font-size:14px;font-weight:700;color:#8A1C2B;text-decoration:underline;padding:10px 0">সাইজ চার্ট</a></div>
         <div role="group" aria-label="সাইজ বাছুন" style="display:flex;flex-wrap:wrap;gap:8px"><template x-for="s in p.sizes"><button type="button" class="size" :class="size===s && 'on'" :aria-pressed="size===s" @click="size=s; err=false" x-text="s"></button></template></div>
@@ -105,7 +110,8 @@ details summary{list-style:none;cursor:pointer}details summary::-webkit-details-
       <template x-for="r in related" :key="r.id">
         <article class="card">
           <div class="ph"><a :href="M.url(r)"><img :src="r.img" :alt="r.t" loading="lazy"></a><button type="button" class="fab" :aria-label="r.t+' দ্রুত কার্টে যোগ করুন'" @click="$store.shop.openQuick(r.id)">+</button></div>
-          <a :href="M.url(r)" class="nm" x-text="r.t"></a><div class="pr" x-text="M.fmt(r.p)"></div>
+          <div class="dots-c" x-show="M.sibs(r).length>1"><template x-for="v in M.sibs(r).slice(0,4)" :key="v.id"><i><img :src="v.img" alt="" loading="lazy"></i></template><span class="muted" style="font-size:12px;font-weight:700;margin-left:4px" x-text="M.sibs(r).length+'টি রঙে'"></span></div>
+<a :href="M.url(r)" class="nm" x-text="r.t"></a><div class="pr" x-text="M.fmt(r.p)"></div>
         </article>
       </template>
     </div>
@@ -121,18 +127,26 @@ details summary{list-style:none;cursor:pointer}details summary::-webkit-details-
 <div id="site-footer"></div>
 <script>
 function pdp() {
-  const p = M.byId(M.q('id')) || M.P[0];
-  document.title = p.t + ' | Mormo BD';
+  const first = M.byId(M.q('id')) || M.P[0];
+  document.title = first.t + ' | Mormo BD';
   const chartSizes = M.chart.map((r) => r.s);
   return {
-    p, size: p.sizes.length === 1 ? p.sizes[0] : null, qty: 1, err: false, gi: 0, waist: 30, chartOpen: false,
-    imgs: [p.img].concat(p.gal).filter((v, i, a) => a.indexOf(v) === i),
-    hasChart: p.sizes.length > 0 && p.sizes.every((s) => chartSizes.includes(s)),
-    related: M.P.filter((r) => r.cat === p.cat && r.id !== p.id && r.stock).slice(0, 8),
+    p: first, size: first.sizes.length === 1 ? first.sizes[0] : null, qty: 1, err: false, gi: 0, waist: 30, chartOpen: false,
+    get sibs() { return M.sibs(this.p); },
+    get imgs() { return [this.p.img].concat(this.p.gal).filter((v, i, a) => a.indexOf(v) === i); },
+    get hasChart() { return this.p.sizes.length > 0 && this.p.sizes.every((s) => chartSizes.includes(s)); },
+    get related() { const g = this.p.g; return M.designs(M.P.filter((r) => r.cat === this.p.cat && r.g !== g && r.stock)).slice(0, 8); },
+    pick(v) {
+      this.p = v;
+      if (this.size && !v.sizes.includes(this.size)) this.size = null;
+      this.gi = 0; this.$refs.g.scrollTo({ left: 0 });
+      history.replaceState(null, '', '?id=' + v.id);
+      document.title = v.t + ' | Mormo BD';
+    },
     go(i) { this.gi = i; this.$refs.g.scrollTo({ left: i * this.$refs.g.clientWidth, behavior: 'smooth' }); },
     ok() { if (!this.size) { this.err = true; document.querySelector('[aria-label="সাইজ বাছুন"]').scrollIntoView({ behavior: 'smooth', block: 'center' }); return false; } return true; },
-    add() { if (this.ok()) this.$store.shop.add(p.id, this.size, this.qty); },
-    buy() { if (!this.ok()) return; this.$store.shop.add(p.id, this.size, this.qty); location.href = 'checkout.html'; }
+    add() { if (this.ok()) this.$store.shop.add(this.p.id, this.size, this.qty); },
+    buy() { if (!this.ok()) return; this.$store.shop.add(this.p.id, this.size, this.qty); location.href = 'checkout.html'; }
   };
 }
 </script>

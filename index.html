@@ -105,7 +105,8 @@ details summary{list-style:none;cursor:pointer}details summary::-webkit-details-
           <button type="button" class="heart" aria-label="পছন্দের তালিকায় রাখুন" :aria-pressed="$store.shop.isWished(p.id)" @click="$store.shop.toggleWish(p.id)"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" stroke="#8A1C2B" stroke-width="2" stroke-linejoin="round" :fill="$store.shop.isWished(p.id)?'#8A1C2B':'none'"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button>
           <button type="button" class="fab" :aria-label="p.t+' দ্রুত কার্টে যোগ করুন'" @click="$store.shop.openQuick(p.id)">+</button>
         </div>
-        <a :href="M.url(p)" class="nm" x-text="p.t"></a>
+        <div class="dots-c" x-show="M.sibs(p).length>1"><template x-for="v in M.sibs(p).slice(0,4)" :key="v.id"><i><img :src="v.img" alt="" loading="lazy"></i></template><span class="muted" style="font-size:12px;font-weight:700;margin-left:4px" x-text="M.sibs(p).length+'টি রঙে'"></span></div>
+<a :href="M.url(p)" class="nm" x-text="p.t"></a>
         <div class="pr" x-text="M.fmt(p.p)"></div>
       </article>
     </template>
@@ -161,7 +162,8 @@ details summary{list-style:none;cursor:pointer}details summary::-webkit-details-
           <button type="button" class="heart" aria-label="পছন্দের তালিকায় রাখুন" :aria-pressed="$store.shop.isWished(p.id)" @click="$store.shop.toggleWish(p.id)"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" stroke="#8A1C2B" stroke-width="2" stroke-linejoin="round" :fill="$store.shop.isWished(p.id)?'#8A1C2B':'none'"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button>
           <button type="button" class="fab" :aria-label="p.t+' দ্রুত কার্টে যোগ করুন'" @click="$store.shop.openQuick(p.id)">+</button>
         </div>
-        <a :href="M.url(p)" class="nm" x-text="p.t"></a>
+        <div class="dots-c" x-show="M.sibs(p).length>1"><template x-for="v in M.sibs(p).slice(0,4)" :key="v.id"><i><img :src="v.img" alt="" loading="lazy"></i></template><span class="muted" style="font-size:12px;font-weight:700;margin-left:4px" x-text="M.sibs(p).length+'টি রঙে'"></span></div>
+<a :href="M.url(p)" class="nm" x-text="p.t"></a>
         <div class="pr" x-text="M.fmt(p.p)"></div>
       </article>
     </template>

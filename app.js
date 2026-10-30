@@ -10,13 +10,20 @@
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* private mode: keep in memory */ } }
   };
 
+  const groups = new Map();
+  P.forEach((p) => { if (!groups.has(p.g)) groups.set(p.g, []); groups.get(p.g).push(p); });
+
   window.M = {
     P, CATS, WA, ls,
+    // every colour of the same design (in stock first)
+    sibs: (p) => (groups.get(p.g) || [p]).slice().sort((a, b) => b.stock - a.stock),
+    // one card per design, keeping the order of the list
+    designs(list) { const seen = new Set(); return list.filter((p) => !seen.has(p.g) && seen.add(p.g)); },
     byId: (id) => byId.get(Number(id)),
     fmt: (n) => Number(n || 0).toLocaleString('en-US') + '৳',
     url: (p) => 'product.html?id=' + p.id,
     q: (k) => new URLSearchParams(location.search).get(k),
-    newest: (n) => P.filter((p) => p.stock).slice(0, n),
+    newest: (n) => window.M.designs(P.filter((p) => p.stock)).slice(0, n),
     inCat: (c) => P.filter((p) => p.cat === c),
     search(term) {
       const t = term.toLowerCase().trim();
@@ -110,6 +117,12 @@
         <span class="grip" aria-hidden="true"></span>
         <div class="sheet-h"><div class="line-item"><img :src="$store.shop.quick.img" alt=""><div><div style="font-weight:700;font-size:15px;line-height:1.35" x-text="$store.shop.quick.t"></div><strong style="font-size:18px" x-text="M.fmt($store.shop.quick.p)"></strong></div></div><button type="button" class="x" aria-label="বন্ধ করুন" @click="$store.shop.quick=null">×</button></div>
         <div class="sheet-b">
+          <template x-if="M.sibs($store.shop.quick).length > 1">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <strong>রঙ: <span class="muted" style="font-weight:400" x-text="$store.shop.quick.c"></span></strong>
+              <div class="hs" style="scroll-snap-type:none"><template x-for="v in M.sibs($store.shop.quick)" :key="v.id"><button type="button" class="swatch" :class="v.id===$store.shop.quick.id && 'on'" :aria-pressed="v.id===$store.shop.quick.id" :aria-label="v.c" :disabled="!v.stock" @click="$store.shop.openQuick(v.id)"><img :src="v.img" alt=""><span x-text="v.c"></span></button></template></div>
+            </div>
+          </template>
           <strong>সাইজ বাছুন</strong>
           <div style="display:flex;flex-wrap:wrap;gap:8px">
             <template x-for="s in $store.shop.quick.sizes"><button type="button" class="size" :class="$store.shop.qSize===s && 'on'" :aria-pressed="$store.shop.qSize===s" @click="$store.shop.qSize=s" x-text="s"></button></template>
@@ -162,7 +175,7 @@
       setQty(i, n) { if (n < 1) return this.remove(i); this.cart[i].qty = Math.min(10, n); this.save(); },
       remove(i) { this.cart.splice(i, 1); this.save(); },
       clear() { this.cart = []; this.save(); },
-      openQuick(id) { const p = byId.get(id); this.qSize = p.sizes.length === 1 ? p.sizes[0] : null; this.quick = p; },
+      openQuick(id) { const p = byId.get(id); const keep = this.qSize && p.sizes.includes(this.qSize) && this.quick; this.qSize = keep ? this.qSize : (p.sizes.length === 1 ? p.sizes[0] : null); this.quick = p; },
       isWished(id) { return this.wish.includes(id); },
       toggleWish(id) { this.wish = this.isWished(id) ? this.wish.filter((x) => x !== id) : [...this.wish, id]; ls.set('mormo_wish', this.wish); },
       say(msg) { this.toast = msg; clearTimeout(this._t); this._t = setTimeout(() => { this.toast = ''; }, 3500); }
