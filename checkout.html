@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>চেকআউট | Mormo BD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&amp;family=Hind+Siliguri:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F3F0EA}
+a{color:#121212;text-decoration:none}a:hover{color:#8A1C2B}
+.fld{width:100%;box-sizing:border-box;height:52px;border-radius:12px;border:1.5px solid #CFC8BC;background:#FFFFFF;padding:0 14px;font:inherit;font-size:16px;color:#121212}
+.fld:focus{outline:2px solid #121212;outline-offset:1px}
+textarea.fld{height:96px;padding:12px 14px;resize:vertical}
+@media (max-width:760px){
+.pad{padding-left:16px !important;padding-right:16px !important}
+.sumcol{order:-1}
+}
+</style>
+<style>[x-cloak]{display:none}</style>
+<script>
+class Base { constructor(props) { this.props = props || {}; } }
+class Component extends Base {
+  constructor(props) {
+    super(props);
+    this.state = { name: '', phone: '', address: '', zone: 'inside', bump: false, tried: false, size: 'M' };
+  }
+  renderVals() {
+    const inside = this.props.insideFee ?? 70;
+    const outside = this.props.outsideFee ?? 130;
+    const zoneDefs = [
+      { id: 'inside', label: 'ঢাকার ভেতরে', fee: inside, days: '[X] দিনে' },
+      { id: 'outside', label: 'ঢাকার বাইরে', fee: outside, days: '[Y] দিনে' }
+    ];
+    const zones = zoneDefs.map((z) => {
+      const on = z.id === this.state.zone;
+      return { ...z, pressed: on ? 'true' : 'false', border: on ? '#121212' : '#CFC8BC', bg: on ? '#F3F0EA' : '#FFFFFF', pick: () => this.setState({ zone: z.id }) };
+    });
+    const cur = zoneDefs.find((z) => z.id === this.state.zone);
+    const phoneOk = /^01[3-9][0-9]{8}$/.test(this.state.phone.replace(/[\s-]/g, ''));
+    const nameOk = this.state.name.trim().length > 1;
+    const addrOk = this.state.address.trim().length > 5;
+    const t = this.state.tried;
+    const sub = 2700 + (this.state.bump ? 999 : 0);
+    const saved = 800 + (this.state.bump ? 251 : 0);
+    const fmt = (n) => n.toLocaleString('en-US');
+    const valid = phoneOk && nameOk && addrOk;
+    return {
+      name: this.state.name,
+      phone: this.state.phone,
+      address: this.state.address,
+      setName: (e) => this.setState({ name: e.target.value }),
+      setPhone: (e) => this.setState({ phone: e.target.value }),
+      setAddress: (e) => this.setState({ address: e.target.value }),
+      err: { name: t && !nameOk, phone: t && !phoneOk, address: t && !addrOk },
+      zones,
+      zoneLabel: cur.label,
+      fee: fmt(cur.fee),
+      bump: this.state.bump,
+      toggleBump: () => this.setState({ bump: !this.state.bump }),
+      size: this.state.size,
+      subtotal: fmt(sub),
+      saved: fmt(saved),
+      total: fmt(sub + cur.fee),
+      valid,
+      invalid: !valid,
+      tryOrder: () => this.setState({ tried: true })
+    };
+  }
+}
+document.addEventListener('alpine:init', () => {
+  Alpine.data('page', () => {
+    const c = new Component({});
+    const o = {
+      state: c.state, props: {}, gal: null,
+      setState(p) { Object.assign(this.state, p); },
+      get v() { return Component.prototype.renderVals.call(this); }
+    };
+    Object.getOwnPropertyNames(Component.prototype).forEach((k) => {
+      if (k !== 'constructor' && k !== 'renderVals') o[k] = Component.prototype[k];
+    });
+    return o;
+  });
+});
+</script>
+<script defer src="alpine.min.js"></script>
+</head>
+<body>
+<div x-data="page" style="font-family: 'Archivo', 'Hind Siliguri', sans-serif; color: #121212; background: #F3F0EA; min-height: 100vh">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #DCD6CC">
+<div class="pad" style="max-width: 1120px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px">
+<a href="index.html" style="font-weight: 900; font-size: 26px; letter-spacing: 0.08em">MORMO<span style="color: #8A1C2B">.</span></a>
+<span style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #3D3A35"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3D3A35" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>নিরাপদ চেকআউট</span>
+</div>
+</header>
+
+<main class="pad" style="max-width: 1120px; margin: 0 auto; padding: 28px 32px 64px">
+<ol aria-label="ধাপ" style="list-style: none; margin: 0 0 24px; padding: 0; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 14px">
+<li style="display: flex; align-items: center; gap: 8px; color: #5A5650"><span aria-hidden="true" style="width: 26px; height: 26px; border-radius: 999px; background: #121212; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>কার্ট</li>
+<li aria-hidden="true" style="width: 32px; height: 2px; background: #121212"></li>
+<li aria-current="step" style="display: flex; align-items: center; gap: 8px; font-weight: 700"><span aria-hidden="true" style="width: 26px; height: 26px; border-radius: 999px; background: #8A1C2B; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700">২</span>তথ্য দিন</li>
+<li aria-hidden="true" style="width: 32px; height: 2px; background: #CFC8BC"></li>
+<li style="display: flex; align-items: center; gap: 8px; color: #5A5650"><span aria-hidden="true" style="width: 26px; height: 26px; border-radius: 999px; border: 1.5px solid #CFC8BC; display: flex; align-items: center; justify-content: center">৩</span>অর্ডার হয়ে গেল</li>
+</ol>
+<h1 style="margin: 0 0 6px; font-size: 32px; font-weight: 800">অর্ডার কনফার্ম করুন</h1>
+<p style="margin: 0 0 24px; color: #5A5650">শুধু ৩টা তথ্য দিন। কোনো অ্যাকাউন্ট খুলতে হবে না।</p>
+
+<div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
+
+<form style="flex: 999 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<section aria-labelledby="ship-h" style="background: #FFFFFF; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<h2 id="ship-h" style="margin: 0; font-size: 20px; font-weight: 800">ডেলিভারির তথ্য</h2>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="nm" style="font-weight: 600; font-size: 15px">আপনার নাম</label>
+<input id="nm" class="fld" type="text" autocomplete="name" :value="v.name" @input="v.setName($event)" placeholder="যেমন: নুসরাত জাহান">
+<template x-if="v.err.name"><span role="alert" style="color: #8A1C2B; font-size: 14px; font-weight: 600">নাম লিখুন</span></template>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="ph" style="font-weight: 600; font-size: 15px">মোবাইল নম্বর</label>
+<input id="ph" class="fld" type="tel" inputmode="numeric" autocomplete="tel" :value="v.phone" @input="v.setPhone($event)" placeholder="01XXXXXXXXX">
+<template x-if="v.err.phone"><span role="alert" style="color: #8A1C2B; font-size: 14px; font-weight: 600">০১ দিয়ে শুরু ১১ সংখ্যার নম্বর দিন</span></template>
+<span style="font-size: 13px; color: #5A5650">এই নম্বরে আমরা ফোন করে অর্ডার কনফার্ম করব</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="ad" style="font-weight: 600; font-size: 15px">পুরো ঠিকানা</label>
+<textarea id="ad" class="fld" autocomplete="street-address" :value="v.address" @input="v.setAddress($event)" placeholder="বাসা/রোড, এলাকা, থানা, জেলা"></textarea>
+<template x-if="v.err.address"><span role="alert" style="color: #8A1C2B; font-size: 14px; font-weight: 600">ঠিকানা লিখুন</span></template>
+</div>
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px">
+<legend style="font-weight: 600; font-size: 15px; margin-bottom: 8px">ডেলিভারি এলাকা</legend>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<template x-for="z in v.zones">
+<button type="button" :aria-pressed="z.pressed" @click="z.pick($event)" :style="`text-align: left; border-radius: 12px; border: 1.5px solid ${z.border}; background: ${z.bg}; padding: 14px; font: inherit; cursor: pointer; display: flex; flex-direction: column; gap: 4px; color: #121212; min-height: 64px`"><span style="font-weight: 600"><span x-text="z.label"></span></span><span style="font-size: 14px; color: #5A5650"><span x-text="z.fee"></span>৳ · <span x-text="z.days"></span></span></button>
+</template>
+</div>
+</fieldset>
+</section>
+
+<section aria-labelledby="pay-h" style="background: #FFFFFF; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+<h2 id="pay-h" style="margin: 0; font-size: 20px; font-weight: 800">পেমেন্ট</h2>
+<div style="border: 1.5px solid #121212; border-radius: 12px; padding: 14px; display: flex; gap: 12px; align-items: center">
+<span aria-hidden="true" style="width: 20px; height: 20px; border-radius: 999px; border: 6px solid #121212; box-sizing: border-box"></span>
+<div><div style="font-weight: 600">ক্যাশ অন ডেলিভারি</div><div style="font-size: 14px; color: #5A5650">প্রোডাক্ট হাতে পেয়ে টাকা দিন</div></div>
+</div>
+</section>
+
+<section aria-label="বিশেষ অফার" style="background: #FFF7E6; border: 1.5px dashed #B7791F; border-radius: 18px; padding: 18px; display: flex; gap: 14px; align-items: flex-start">
+<input id="bump" type="checkbox" :checked="v.bump" @input="v.toggleBump($event)" style="width: 24px; height: 24px; margin: 2px 0 0; accent-color: #121212; flex: none">
+<label for="bump" style="display: flex; flex-direction: column; gap: 4px; cursor: pointer">
+<span style="font-weight: 700">হ্যাঁ, এর সাথে Plain Wide Leg Baggy Pant যোগ করুন</span>
+<span style="font-size: 15px; color: #3D3A35">একই পার্সেলে আসবে। মাত্র <strong>999৳</strong> <s style="color: #5A5650">1,250৳</s>, সাইজ আপনার সেটের মতোই (<span x-text="v.size"></span>)</span>
+</label>
+</section>
+</form>
+
+<aside class="sumcol" aria-labelledby="sum-h" style="flex: 1 1 340px; min-width: 0; background: #FFFFFF; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 16px; position: sticky; top: 16px">
+<h2 id="sum-h" style="margin: 0; font-size: 20px; font-weight: 800">আপনার অর্ডার</h2>
+<div style="display: flex; gap: 14px; align-items: center">
+<img src="img/cutout-set-maroon.webp" alt="মেরুন কাটআউট হুডি বডিস্যুট সেট" style="width: 72px; height: 90px; object-fit: cover; border-radius: 10px; flex: none">
+<div style="flex: 1; min-width: 0"><div style="font-weight: 600; font-size: 15px; line-height: 1.4">Cutout Hoodie Bodysuit Set</div><div style="font-size: 14px; color: #5A5650">মেরুন · <span x-text="v.size"></span> · ১টি</div></div>
+<div style="font-weight: 700">2,700৳</div>
+</div>
+<template x-if="v.bump">
+<div style="display: flex; gap: 14px; align-items: center">
+<div aria-hidden="true" style="width: 72px; height: 72px; border-radius: 10px; background: #ECE7DF; flex: none; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #5A5650">Baggy</div>
+<div style="flex: 1; min-width: 0"><div style="font-weight: 600; font-size: 15px">Plain Wide Leg Baggy Pant</div><div style="font-size: 14px; color: #5A5650"><span x-text="v.size"></span> · ১টি</div></div>
+<div style="font-weight: 700">999৳</div>
+</div>
+</template>
+<div style="border-top: 1px solid #ECE7DF; padding-top: 14px; display: flex; flex-direction: column; gap: 8px; font-size: 15px">
+<div style="display: flex; justify-content: space-between"><span>সাবটোটাল</span><span><span x-text="v.subtotal"></span>৳</span></div>
+<div style="display: flex; justify-content: space-between"><span>ডেলিভারি (<span x-text="v.zoneLabel"></span>)</span><span><span x-text="v.fee"></span>৳</span></div>
+<div style="display: flex; justify-content: space-between; color: #1F6B2A"><span>আপনি বাঁচাচ্ছেন</span><span><span x-text="v.saved"></span>৳</span></div>
+</div>
+<div style="border-top: 1.5px solid #121212; padding-top: 14px; display: flex; justify-content: space-between; align-items: baseline"><span style="font-weight: 700; font-size: 17px">মোট (ডেলিভারিতে দেবেন)</span><span style="font-weight: 900; font-size: 26px"><span x-text="v.total"></span>৳</span></div>
+<template x-if="v.valid">
+<a href="thank-you.html" style="display: flex; align-items: center; justify-content: center; height: 58px; border-radius: 999px; background: #121212; color: #FFFFFF; font-weight: 700; font-size: 17px">অর্ডার কনফার্ম করুন</a>
+</template>
+<template x-if="v.invalid">
+<button type="button" @click="v.tryOrder($event)" style="height: 58px; border-radius: 999px; border: 0; background: #121212; color: #FFFFFF; font: inherit; font-weight: 700; font-size: 17px; cursor: pointer">অর্ডার কনফার্ম করুন</button>
+</template>
+<p style="margin: 0; font-size: 13px; color: #5A5650; text-align: center">অর্ডার দিলে আপনি আমাদের <a href="#" style="text-decoration: underline; color: #3D3A35">রিফান্ড নীতি</a> মেনে নিচ্ছেন</p>
+</aside>
+</div>
+</main>
+</div>
+</body>
+</html>

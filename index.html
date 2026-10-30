@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Mormo BD হোমপেজ</title>
+<script>if (window.matchMedia('(max-width: 760px)').matches && !location.search.includes('desktop')) location.replace('m-home.html');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&amp;family=Hind+Siliguri:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F3F0EA}
+a{color:#121212;text-decoration:none}a:hover{color:#8A1C2B}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.mq{display:flex;gap:48px;white-space:nowrap;animation:mq 28s linear infinite;width:max-content}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.swap{position:relative}
+.swap .b{position:absolute;inset:0;opacity:0;transition:opacity .35s ease}
+.swap:hover .b{opacity:1}
+.lift{transition:transform .25s ease}
+.lift:hover{transform:translateY(-4px)}
+.hot{animation:pulse 2s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.7)}100%{box-shadow:0 0 0 16px rgba(255,255,255,0)}}
+.bento{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:200px;gap:12px}
+.span2{grid-column:span 2}.row2{grid-row:span 2}
+.mnav{display:none}
+details summary{list-style:none;cursor:pointer}
+details summary::-webkit-details-marker{display:none}
+input[type=range]{accent-color:#8A1C2B;width:100%;height:44px}
+@media (prefers-reduced-motion:reduce){.mq,.hot{animation:none}.lift,.swap .b{transition:none}}
+@media (max-width:760px){
+.deskonly{display:none !important}
+.mnav{display:flex !important}
+.heroh{font-size:40px !important}
+.pad{padding-left:16px !important;padding-right:16px !important}
+.bento{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:160px}
+.span2{grid-column:span 2}
+}
+</style>
+<style>[x-cloak]{display:none}</style>
+<script>
+class Base { constructor(props) { this.props = props || {}; } }
+class Component extends Base {
+  constructor(props) {
+    super(props);
+    this.state = {
+      color: 'maroon', waist: 30, query: '', searchOpen: false, wish: false, pin: 'top',
+      cartOpen: false, justAdded: '',
+      cart: [
+        { id: 1, name: 'Cutout Hoodie Bodysuit Set', meta: 'মেরুন · M · ১টি', price: 2700, img: 'img/cutout-set-maroon.webp' },
+        { id: 2, name: 'Black Brooklyn 3-Piece Set', meta: 'কালো · S · ১টি', price: 0, img: 'img/brooklyn-3-piece-set.webp' }
+      ]
+    };
+  }
+  addItem(item, msg) {
+    const id = Date.now();
+    this.setState({ cart: [...this.state.cart, { ...item, id }], cartOpen: true, justAdded: msg });
+  }
+  renderVals() {
+    const palette = [
+      { id: 'maroon', label: 'মেরুন', hex: '#7A1E2A', img: 'img/cutout-set-maroon.webp', bg: '#4A1219', accent: '#F2B8A8', muted: '#E7CFCB', alt: 'মেরুন কাটআউট হুডি বডিস্যুট আর ধূসর ওয়াইড লেগ প্যান্ট সেট পরা মডেল' },
+      { id: 'black', label: 'কালো', hex: '#151515', img: 'img/cutout-set-black.webp', bg: '#121212', accent: '#E9B9A0', muted: '#CFC8BC', alt: 'কালো কাটআউট হুডি বডিস্যুট আর ধূসর ওয়াইড লেগ প্যান্ট সেট পরা মডেল' },
+      { id: 'beige', label: 'বেইজ', hex: '#D8C7AE', img: 'img/cutout-set-beige.webp', bg: '#5B4A36', accent: '#F4E3C8', muted: '#E8DCCB', alt: 'বেইজ কাটআউট হুডি বডিস্যুট আর ধূসর ওয়াইড লেগ প্যান্ট সেট পরা মডেল' }
+    ];
+    const cur = palette.find((p) => p.id === this.state.color) || palette[0];
+    const next = palette[(palette.indexOf(cur) + 1) % palette.length];
+    const colors = palette.map((p) => ({
+      ...p,
+      pressed: p.id === cur.id ? 'true' : 'false',
+      ring: p.id === cur.id ? '#121212' : 'transparent',
+      heroRing: p.id === cur.id ? '#FFFFFF' : 'transparent',
+      pick: () => this.setState({ color: p.id })
+    }));
+    const others = palette.filter((p) => p.id !== cur.id).map((p) => ({ ...p, pick: () => this.setState({ color: p.id }) }));
+
+    const chart = [
+      { s: 'XS', chest: 36, top: 16, waist: '24–28', pant: 36, mid: 26 },
+      { s: 'S', chest: 38, top: 17, waist: '26–30', pant: 37, mid: 28 },
+      { s: 'M', chest: 40, top: 18, waist: '28–32', pant: 38, mid: 30 },
+      { s: 'L', chest: 42, top: 19, waist: '30–34', pant: 39, mid: 32 },
+      { s: 'XL', chest: 44, top: 20, waist: '32–36', pant: 40, mid: 34 },
+      { s: 'XXL', chest: 46, top: 21, waist: '34–38', pant: 41, mid: 36 },
+      { s: '3XL', chest: 48, top: 22, waist: '36–40', pant: 42, mid: 38 }
+    ];
+    const w = Number(this.state.waist);
+    const rec = chart.reduce((best, r) => (Math.abs(r.mid - w) < Math.abs(best.mid - w) ? r : best), chart[0]);
+
+    const quick = chart.map((r) => ({
+      s: r.s,
+      add: () => this.addItem({ name: 'Cutout Hoodie Bodysuit Set', meta: cur.label + ' · ' + r.s + ' · ১টি', price: 2700, img: cur.img }, cur.label + ', সাইজ ' + r.s + ' কার্টে যোগ হয়েছে')
+    }));
+
+    const pins = {
+      top: { eyebrow: 'উপরের অংশ', title: 'কাটআউট হুডি বডিস্যুট', text: 'লম্বা হাতা, সামনে কাটআউট, হাতায় গ্রাফিক প্রিন্ট আর কোমরে বাঁধার সাশ। স্ট্রেচ কাপড়, শরীরে সুন্দর বসে।' },
+      bottom: { eyebrow: 'নিচের অংশ', title: 'টেক্সট প্রিন্ট ওয়াইড লেগ প্যান্ট', text: 'ধূসর রঙে গথিক টেক্সট প্রিন্ট। ঢিলেঢালা ওয়াইড লেগ, সারাদিন আরাম।' }
+    };
+    const pin = pins[this.state.pin];
+
+    const suggestTerms = ['বেগি প্যান্ট', 'হুডি সেট', 'ক্রপ টপ সেট', 'কো-অর্ড সেট', 'কার্গো প্যান্ট'];
+    const cart = this.state.cart.map((it) => ({
+      ...it,
+      price: it.price ? it.price.toLocaleString('en-US') + '৳' : '[দাম]৳',
+      remove: () => this.setState({ cart: this.state.cart.filter((x) => x.id !== it.id), justAdded: '' })
+    }));
+    const total = this.state.cart.reduce((s, it) => s + (it.price || 0), 0);
+
+    return {
+      colors, others, colorName: cur.label,
+      heroImg: cur.img, heroAlt: cur.alt, heroBg: cur.bg, heroAccent: cur.accent, heroMuted: cur.muted,
+      cardImg: cur.img, cardAlt: cur.alt, cardAltImg: next.img,
+      wishPressed: this.state.wish ? 'true' : 'false', wishFill: this.state.wish ? '#8A1C2B' : 'none',
+      toggleWish: () => this.setState({ wish: !this.state.wish }),
+      quick,
+      waist: w, rec, setWaist: (e) => this.setState({ waist: e.target.value }),
+      pinTop: () => this.setState({ pin: 'top' }), pinBottom: () => this.setState({ pin: 'bottom' }),
+      pinTopBg: this.state.pin === 'top' ? '#8A1C2B' : 'rgba(18,18,18,0.6)',
+      pinBottomBg: this.state.pin === 'bottom' ? '#8A1C2B' : 'rgba(18,18,18,0.6)',
+      pinEyebrow: pin.eyebrow, pinTitle: pin.title, pinText: pin.text,
+      addLook: () => this.addItem({ name: 'Cutout Hoodie Bodysuit Set', meta: 'বেইজ · M · ১টি', price: 2700, img: 'img/cutout-set-beige.webp' }, 'বেইজ, সাইজ M কার্টে যোগ হয়েছে'),
+      query: this.state.query, searchOpen: this.state.searchOpen,
+      searchBorder: this.state.searchOpen ? '#121212' : '#DCD6CC',
+      setQuery: (e) => this.setState({ query: e.target.value, searchOpen: true }),
+      openSearch: () => this.setState({ searchOpen: true }),
+      closeSearch: () => this.setState({ searchOpen: false }),
+      suggest: suggestTerms.map((t) => ({ t, pick: () => this.setState({ query: t }) })),
+      cartOpen: this.state.cartOpen, cart, cartEmpty: cart.length === 0,
+      cartCount: this.state.cart.length, cartTotal: total.toLocaleString('en-US'),
+      justAdded: this.state.justAdded,
+      openCart: () => this.setState({ cartOpen: true, justAdded: '' }),
+      closeCart: () => this.setState({ cartOpen: false, justAdded: '' })
+    };
+  }
+}
+document.addEventListener('alpine:init', () => {
+  Alpine.data('page', () => {
+    const c = new Component({});
+    const o = {
+      state: c.state, props: {}, gal: null,
+      setState(p) { Object.assign(this.state, p); },
+      get v() { return Component.prototype.renderVals.call(this); }
+    };
+    Object.getOwnPropertyNames(Component.prototype).forEach((k) => {
+      if (k !== 'constructor' && k !== 'renderVals') o[k] = Component.prototype[k];
+    });
+    return o;
+  });
+});
+</script>
+<script defer src="alpine.min.js"></script>
+</head>
+<body>
+<div x-data="page" style="font-family: 'Archivo', 'Hind Siliguri', sans-serif; color: #121212; background: #F3F0EA; min-height: 100vh">
+
+<div style="background: #8A1C2B; color: #FFFFFF; font-size: 14px; font-weight: 500; padding: 9px 0; overflow: hidden" aria-label="অফার ও সুবিধা">
+<div class="mq">
+<span>সারা বাংলাদেশে ক্যাশ অন ডেলিভারি</span><span aria-hidden="true">✦</span><span>XS থেকে 5XL সাইজ</span><span aria-hidden="true">✦</span><span>প্রথম অর্ডারে বাড়তি ছাড়: [YOUR CODE]</span><span aria-hidden="true">✦</span><span>সাইজ নিয়ে প্রশ্ন? WhatsApp করুন</span><span aria-hidden="true">✦</span>
+<span aria-hidden="true">সারা বাংলাদেশে ক্যাশ অন ডেলিভারি</span><span aria-hidden="true">✦</span><span aria-hidden="true">XS থেকে 5XL সাইজ</span><span aria-hidden="true">✦</span><span aria-hidden="true">প্রথম অর্ডারে বাড়তি ছাড়: [YOUR CODE]</span><span aria-hidden="true">✦</span><span aria-hidden="true">সাইজ নিয়ে প্রশ্ন? WhatsApp করুন</span><span aria-hidden="true">✦</span>
+</div>
+</div>
+
+<header style="background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid #DCD6CC; position: sticky; top: 0; z-index: 30">
+<div class="pad" style="max-width: 1320px; margin: 0 auto; padding: 12px 32px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap">
+<a href="#" style="font-weight: 900; font-size: 28px; letter-spacing: 0.1em; color: #121212">MORMO<span style="color: #8A1C2B">.</span></a>
+<nav aria-label="ক্যাটাগরি" class="deskonly" style="display: flex; gap: 2px">
+<a href="category.html" style="padding: 12px; font-size: 15px; font-weight: 600">Winter</a>
+<a href="category.html" style="padding: 12px; font-size: 15px; font-weight: 600">Baggy Pant</a>
+<a href="category.html" style="padding: 12px; font-size: 15px; font-weight: 600">Crop Top Set</a>
+<a href="category.html" style="padding: 12px; font-size: 15px; font-weight: 600">Combo Set</a>
+<a href="category.html" style="padding: 12px; font-size: 15px; font-weight: 600">আরও</a>
+</nav>
+<div style="flex: 1 1 260px; min-width: 0; position: relative">
+<form role="search" :style="`display: flex; align-items: center; gap: 8px; background: #F3F0EA; border: 1.5px solid ${v.searchBorder}; border-radius: 999px; padding: 0 16px; height: 46px`">
+<label for="q" class="sr">প্রোডাক্ট খুঁজুন</label>
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5A5650" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<input id="q" type="search" autocomplete="off" :value="v.query" @input="v.setQuery($event)" @focus="v.openSearch($event)" placeholder="কী খুঁজছেন? যেমন: বেগি প্যান্ট" style="border: 0; background: transparent; font: inherit; font-size: 15px; flex: 1; min-width: 0; outline: none; color: #121212">
+</form>
+<template x-if="v.searchOpen">
+<div style="position: absolute; top: 54px; left: 0; right: 0; background: #FFFFFF; border-radius: 16px; box-shadow: 0 20px 50px rgba(18,18,18,0.18); padding: 16px; z-index: 40; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="font-size: 13px; font-weight: 600; color: #5A5650">জনপ্রিয় খোঁজ</span><button type="button" @click="v.closeSearch($event)" aria-label="বন্ধ করুন" style="width: 44px; height: 44px; border: 0; background: transparent; cursor: pointer; font-size: 20px; color: #121212">×</button></div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<template x-for="sg in v.suggest">
+<button type="button" @click="sg.pick($event)" style="height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid #DCD6CC; background: #FFFFFF; font: inherit; font-size: 14px; cursor: pointer; color: #121212"><span x-text="sg.t"></span></button>
+</template>
+</div>
+<a href="product.html" style="display: flex; gap: 12px; align-items: center; padding: 8px; border-radius: 12px; background: #F3F0EA">
+<img src="img/cutout-set-maroon.webp" alt="" style="width: 48px; height: 60px; object-fit: cover; border-radius: 8px">
+<span style="flex: 1; min-width: 0"><span style="display: block; font-weight: 600; font-size: 14px">Cutout Hoodie Bodysuit Set</span><span style="font-size: 13px; color: #5A5650">এই সপ্তাহের সবচেয়ে বেশি দেখা</span></span>
+<span style="font-weight: 800">2,700৳</span>
+</a>
+</div>
+</template>
+</div>
+<div style="display: flex; align-items: center; gap: 6px">
+<a href="#" aria-label="অ্যাকাউন্ট" class="deskonly" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 999px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></a>
+<button type="button" @click="v.openCart($event)" :aria-label="`কার্ট খুলুন, ${v.cartCount}টি প্রোডাক্ট`" style="position: relative; height: 46px; padding: 0 18px 0 14px; display: flex; align-items: center; gap: 8px; border-radius: 999px; background: #121212; color: #FFFFFF; border: 0; font: inherit; font-weight: 600; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14l-1.2 12.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8L5 7z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg><span x-text="v.cartCount"></span></button>
+</div>
+</div>
+</header>
+
+<main>
+<section aria-labelledby="hero-h" :style="`background: ${v.heroBg}; color: #FFFFFF; transition: background .4s ease`">
+<div class="pad" style="max-width: 1320px; margin: 0 auto; padding: 48px 32px 56px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
+<div style="flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+<p :style="`margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: ${v.heroAccent}`">Winter Drop 2026</p>
+<h1 id="hero-h" class="heroh" style="margin: 0; font-size: 64px; line-height: 1.04; font-weight: 900; letter-spacing: -0.02em">মেয়েদের স্ট্রিটওয়্যার। <span :style="`color: ${v.heroAccent}`">নিজের নিয়মে।</span></h1>
+<p :style="`margin: 0; font-size: 18px; line-height: 1.6; color: ${v.heroMuted}; max-width: 500px`">বেগি প্যান্ট, কো-অর্ড সেট আর হুডি। XS থেকে 5XL সাইজ, সারা দেশে ক্যাশ অন ডেলিভারি।</p>
+<div style="display: flex; gap: 12px; flex-wrap: wrap">
+<a href="category.html" style="background: #FFFFFF; color: #121212; padding: 17px 30px; border-radius: 999px; font-weight: 700; font-size: 16px">কালেকশন দেখুন</a>
+<a href="#size" style="color: #FFFFFF; border: 1.5px solid rgba(255,255,255,0.6); padding: 17px 30px; border-radius: 999px; font-weight: 700; font-size: 16px">আমার সাইজ কত?</a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px; padding-top: 8px">
+<span :style="`font-size: 14px; color: ${v.heroMuted}`">একই সেট, ৩ রঙে · এখন দেখছেন: <strong style="color: #FFFFFF"><span x-text="v.colorName"></span></strong></span>
+<div role="group" aria-label="রঙ বদলান" style="display: flex; gap: 10px">
+<template x-for="c in v.colors">
+<button type="button" :aria-label="c.label" :aria-pressed="c.pressed" @click="c.pick($event)" :style="`width: 48px; height: 48px; border-radius: 999px; border: 2px solid ${c.heroRing}; background: transparent; padding: 5px; cursor: pointer; box-sizing: border-box`"><span :style="`display: block; width: 100%; height: 100%; border-radius: 999px; background: ${c.hex}; border: 1px solid rgba(255,255,255,0.35)`"></span></button>
+</template>
+</div>
+</div>
+</div>
+<div style="flex: 1 1 460px; min-width: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: 300px 260px; gap: 12px">
+<a href="product.html" style="grid-column: 1 / 3; grid-row: 1 / 3; position: relative; border-radius: 22px; overflow: hidden; background: rgba(255,255,255,0.08)">
+<img :src="v.heroImg" :alt="v.heroAlt" style="width: 100%; height: 100%; object-fit: cover; display: block">
+<span style="position: absolute; left: 14px; bottom: 14px; background: #FFFFFF; color: #121212; border-radius: 999px; padding: 10px 16px; font-weight: 700; font-size: 14px">2,700৳ · দেখুন →</span>
+</a>
+<template x-for="o in v.others">
+<button type="button" @click="o.pick($event)" :aria-label="`${o.label} রঙ দেখুন`" style="padding: 0; border: 0; border-radius: 18px; overflow: hidden; cursor: pointer; background: rgba(255,255,255,0.08)"><img :src="o.img" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.85"></button>
+</template>
+</div>
+</div>
+</section>
+
+<section aria-label="কেন Mormo" style="background: #FFFFFF; border-bottom: 1px solid #ECE7DF">
+<div class="pad" style="max-width: 1320px; margin: 0 auto; padding: 18px 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
+<div style="display: flex; gap: 12px; align-items: center"><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8A1C2B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"></rect><circle cx="12" cy="12" r="2.5"></circle></svg><div><div style="font-weight: 700">ক্যাশ অন ডেলিভারি</div><div style="font-size: 14px; color: #5A5650">হাতে পেয়ে টাকা দিন</div></div></div>
+<div style="display: flex; gap: 12px; align-items: center"><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8A1C2B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7z"></path><circle cx="7" cy="18" r="1.6"></circle><circle cx="17" cy="18" r="1.6"></circle></svg><div><div style="font-weight: 700">সারা দেশে ডেলিভারি</div><div style="font-size: 14px; color: #5A5650">ঢাকায় [X] দিন, বাইরে [Y] দিন</div></div></div>
+<div style="display: flex; gap: 12px; align-items: center"><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8A1C2B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 3-6.2"></path><path d="M4 4v4h4"></path></svg><div><div style="font-weight: 700">সহজ এক্সচেঞ্জ</div><div style="font-size: 14px; color: #5A5650">[আপনার নীতি]</div></div></div>
+<div style="display: flex; gap: 12px; align-items: center"><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8A1C2B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15l12-12 6 6-12 12z"></path><path d="M7 11l2 2M10 8l2 2M13 5l2 2"></path></svg><div><div style="font-weight: 700">XS থেকে 5XL</div><div style="font-size: 14px; color: #5A5650">ইঞ্চিতে সাইজ চার্ট</div></div></div>
+</div>
+</section>
+
+<section aria-labelledby="cat-h" class="pad" style="max-width: 1320px; margin: 0 auto; padding: 64px 32px 24px">
+<div style="display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 22px; flex-wrap: wrap">
+<h2 id="cat-h" style="margin: 0; font-size: 40px; font-weight: 900; letter-spacing: -0.01em">কী খুঁজছেন?</h2>
+<a href="category.html" style="font-weight: 700; font-size: 15px; padding: 10px 0">সব প্রোডাক্ট →</a>
+</div>
+<div class="bento">
+<a href="category.html" class="span2 row2 lift" style="position: relative; border-radius: 22px; overflow: hidden; background: #121212; color: #FFFFFF">
+<img src="img/cutout-set-black.webp" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.82">
+<span style="position: absolute; left: 22px; bottom: 22px; right: 22px; display: flex; justify-content: space-between; align-items: end; gap: 12px"><span><span style="display: block; font-size: 14px; opacity: 0.85">শীতের জন্য</span><span style="display: block; font-size: 34px; font-weight: 900">Winter Collection</span></span><span aria-hidden="true" style="width: 48px; height: 48px; border-radius: 999px; background: #FFFFFF; color: #121212; display: flex; align-items: center; justify-content: center; font-size: 20px; flex: none">→</span></span>
+</a>
+<a href="category.html" class="lift" style="border-radius: 22px; background: #8A1C2B; color: #FFFFFF; padding: 22px; display: flex; flex-direction: column; justify-content: space-between"><span style="font-size: 14px; opacity: 0.85">সবচেয়ে জনপ্রিয়</span><span style="font-size: 26px; font-weight: 900">Baggy Pant</span></a>
+<a href="category.html" class="row2 lift" style="position: relative; border-radius: 22px; overflow: hidden; background: #E6DFD3">
+<img src="img/brooklyn-3-piece-set.webp" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block">
+<span style="position: absolute; left: 14px; bottom: 14px; background: #FFFFFF; border-radius: 999px; padding: 10px 16px; font-weight: 800">Crop Top Set</span>
+</a>
+<a href="category.html" class="lift" style="position: relative; border-radius: 22px; overflow: hidden; background: #E6DFD3">
+<img src="img/new-york-3-piece-set.webp" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: top; display: block">
+<span style="position: absolute; left: 14px; bottom: 14px; background: #FFFFFF; border-radius: 999px; padding: 10px 16px; font-weight: 800">Combo Set</span>
+</a>
+<a href="category.html" class="lift" style="border-radius: 22px; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; justify-content: space-between"><span style="font-size: 14px; color: #5A5650">একা পরুন</span><span style="font-size: 24px; font-weight: 900">Tops</span></a>
+<a href="category.html" class="lift" style="border-radius: 22px; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; justify-content: space-between"><span style="font-size: 14px; color: #5A5650">হালকা আর আরামের</span><span style="font-size: 24px; font-weight: 900">Shorts</span></a>
+<a href="category.html" class="span2 lift" style="border-radius: 22px; background: #E8E1D4; padding: 22px; display: flex; flex-direction: column; justify-content: space-between"><span style="font-size: 14px; color: #5A5650">ঘরের জন্য, আরামের জন্য</span><span style="font-size: 24px; font-weight: 900">Night Dress</span></a>
+</div>
+</section>
+
+<section id="new" aria-labelledby="new-h" class="pad" style="max-width: 1320px; margin: 0 auto; padding: 56px 32px 64px">
+<div style="display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 22px; flex-wrap: wrap">
+<div><p style="margin: 0 0 6px; font-size: 14px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #8A1C2B">New In</p><h2 id="new-h" style="margin: 0; font-size: 40px; font-weight: 900">নতুন এসেছে</h2></div>
+<a href="category.html" style="font-weight: 700; font-size: 15px; padding: 10px 0">সব দেখুন →</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px">
+
+<article style="display: flex; flex-direction: column; gap: 12px">
+<div class="swap" style="border-radius: 20px; overflow: hidden; background: #E6DFD3; aspect-ratio: 4 / 5">
+<a href="product.html" style="display: block; width: 100%; height: 100%"><img :src="v.cardImg" :alt="v.cardAlt" style="width: 100%; height: 100%; object-fit: cover; display: block"><img class="b" :src="v.cardAltImg" alt="" style="width: 100%; height: 100%; object-fit: cover"></a>
+<span style="position: absolute; top: 12px; left: 12px; background: #8A1C2B; color: #FFFFFF; font-size: 13px; font-weight: 700; padding: 5px 10px; border-radius: 999px">-23%</span>
+<button type="button" aria-label="পছন্দের তালিকায় রাখুন" :aria-pressed="v.wishPressed" @click="v.toggleWish($event)" style="position: absolute; top: 8px; right: 8px; width: 44px; height: 44px; border-radius: 999px; border: 0; background: rgba(255,255,255,0.92); cursor: pointer; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" :fill="v.wishFill" stroke="#8A1C2B" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg></button>
+<div style="position: absolute; left: 10px; right: 10px; bottom: 10px; background: rgba(255,255,255,0.96); border-radius: 14px; padding: 10px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 13px; font-weight: 600">দ্রুত কার্টে যোগ করুন · সাইজ</span>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px">
+<template x-for="qs in v.quick">
+<button type="button" @click="qs.add($event)" :aria-label="`সাইজ ${qs.s} কার্টে যোগ করুন`" style="height: 36px; border-radius: 8px; border: 1px solid #DCD6CC; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; color: #121212; padding: 0"><span x-text="qs.s"></span></button>
+</template>
+</div>
+</div>
+</div>
+<div style="display: flex; gap: 8px; align-items: center">
+<template x-for="c in v.colors">
+<button type="button" :aria-label="c.label" :aria-pressed="c.pressed" @click="c.pick($event)" :style="`width: 44px; height: 44px; border-radius: 999px; border: 2px solid ${c.ring}; background: transparent; padding: 7px; cursor: pointer; box-sizing: border-box`"><span :style="`display: block; width: 100%; height: 100%; border-radius: 999px; background: ${c.hex}; border: 1px solid #00000022`"></span></button>
+</template>
+<span style="font-size: 14px; color: #5A5650"><span x-text="v.colorName"></span></span>
+</div>
+<a href="product.html" style="font-weight: 700; font-size: 16px; line-height: 1.4">Cutout Hoodie Bodysuit &amp; Text Print Wide-Leg Pants Set</a>
+<div style="display: flex; gap: 10px; align-items: baseline"><span style="font-weight: 900; font-size: 21px">2,700৳</span><s style="color: #5A5650; font-size: 15px">3,500৳</s></div>
+</article>
+
+<article style="display: flex; flex-direction: column; gap: 12px">
+<a href="category.html" class="swap" style="display: block; border-radius: 20px; overflow: hidden; background: #E6DFD3; aspect-ratio: 4 / 5">
+<img src="img/new-york-3-piece-set.webp" alt="ক্রিম New York গ্রাফিক ক্রপ হুডি, কালো ক্যামি টপ আর জগার্স ৩ পিস সেট" style="width: 100%; height: 100%; object-fit: cover; display: block">
+<span style="position: absolute; top: 12px; left: 12px; background: #121212; color: #FFFFFF; font-size: 13px; font-weight: 700; padding: 5px 10px; border-radius: 999px">৩ পিস</span>
+</a>
+<span style="font-size: 14px; color: #5A5650">ক্রিম</span>
+<a href="category.html" style="font-weight: 700; font-size: 16px; line-height: 1.4">Cream New York Crop Hoodie, Cami Top &amp; Joggers Set</a>
+<div style="font-weight: 900; font-size: 21px">[দাম]৳</div>
+</article>
+
+<article style="display: flex; flex-direction: column; gap: 12px">
+<a href="category.html" class="swap" style="display: block; border-radius: 20px; overflow: hidden; background: #E6DFD3; aspect-ratio: 4 / 5">
+<img src="img/brooklyn-3-piece-set.webp" alt="কালো Brooklyn গ্রাফিক ক্রপ হুডি, ক্যামি টপ আর সবুজ কার্গো প্যান্ট ৩ পিস সেট" style="width: 100%; height: 100%; object-fit: cover; display: block">
+<span style="position: absolute; top: 12px; left: 12px; background: #121212; color: #FFFFFF; font-size: 13px; font-weight: 700; padding: 5px 10px; border-radius: 999px">৩ পিস</span>
+</a>
+<span style="font-size: 14px; color: #5A5650">কালো · সবুজ</span>
+<a href="category.html" style="font-weight: 700; font-size: 16px; line-height: 1.4">Black Brooklyn Crop Hoodie, Cami Top &amp; Cargo Pants Set</a>
+<div style="font-weight: 900; font-size: 21px">[দাম]৳</div>
+</article>
+
+</div>
+</section>
+
+<section aria-labelledby="look-h" style="background: #121212; color: #FFFFFF">
+<div class="pad" style="max-width: 1320px; margin: 0 auto; padding: 64px 32px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
+<div style="flex: 1 1 420px; min-width: 0; position: relative; border-radius: 22px; overflow: hidden; aspect-ratio: 4 / 5; max-height: 640px">
+<img src="img/cutout-set-beige.webp" alt="বেইজ কাটআউট হুডি বডিস্যুট আর ধূসর টেক্সট প্রিন্ট ওয়াইড লেগ প্যান্ট পরা মডেল" style="width: 100%; height: 100%; object-fit: cover; display: block">
+<button type="button" class="hot" @click="v.pinTop($event)" aria-label="হুডি বডিস্যুটের তথ্য" :style="`position: absolute; left: 46%; top: 30%; width: 44px; height: 44px; border-radius: 999px; border: 3px solid #FFFFFF; background: ${v.pinTopBg}; cursor: pointer`"></button>
+<button type="button" class="hot" @click="v.pinBottom($event)" aria-label="ওয়াইড লেগ প্যান্টের তথ্য" :style="`position: absolute; left: 40%; top: 66%; width: 44px; height: 44px; border-radius: 999px; border: 3px solid #FFFFFF; background: ${v.pinBottomBg}; cursor: pointer`"></button>
+</div>
+<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #E9B9A0">Shop the Look</p>
+<h2 id="look-h" style="margin: 0; font-size: 40px; font-weight: 900; line-height: 1.1">ছবিতে চাপ দিন, প্রতিটা অংশ দেখুন</h2>
+<div aria-live="polite" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 13px; color: #CFC8BC"><span x-text="v.pinEyebrow"></span></span>
+<span style="font-size: 22px; font-weight: 800"><span x-text="v.pinTitle"></span></span>
+<span style="color: #CFC8BC; line-height: 1.6"><span x-text="v.pinText"></span></span>
+</div>
+<div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap">
+<span style="font-size: 26px; font-weight: 900">পুরো সেট 2,700৳</span>
+<button type="button" @click="v.addLook($event)" style="height: 54px; padding: 0 26px; border-radius: 999px; border: 0; background: #FFFFFF; color: #121212; font: inherit; font-weight: 700; font-size: 16px; cursor: pointer">বেইজ, M · কার্টে যোগ করুন</button>
+</div>
+</div>
+</div>
+</section>
+
+<section id="size" aria-labelledby="size-h" class="pad" style="max-width: 1320px; margin: 0 auto; padding: 72px 32px">
+<div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: stretch">
+<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 18px; justify-content: center">
+<p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #8A1C2B">Size Finder</p>
+<h2 id="size-h" style="margin: 0; font-size: 40px; font-weight: 900; line-height: 1.1">কোমরের মাপ দিন, সাইজ বলে দেব</h2>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #5A5650">আপনার পছন্দের একটা প্যান্টের কোমর মেপে নিন (ইঞ্চিতে)। স্লাইডার সরান।</p>
+<div style="background: #FFFFFF; border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; justify-content: space-between; align-items: baseline"><label for="waist" style="font-weight: 700">কোমর</label><span style="font-size: 28px; font-weight: 900"><span x-text="v.waist"></span>"</span></div>
+<input id="waist" type="range" min="24" max="40" step="1" :value="v.waist" @input="v.setWaist($event)">
+<div style="display: flex; justify-content: space-between; font-size: 13px; color: #5A5650"><span>24"</span><span>40"</span></div>
+</div>
+</div>
+<div aria-live="polite" style="flex: 1 1 420px; min-width: 0; background: #121212; color: #F3F0EA; border-radius: 24px; padding: 30px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px">
+<div style="grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: 16px"><span style="font-size: 16px; color: #CFC8BC">আপনার জন্য সাইজ</span><span style="font-size: 72px; line-height: 1; font-weight: 900; color: #FFFFFF"><span x-text="v.rec.s"></span></span></div>
+<div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 14px"><div style="font-size: 14px; color: #CFC8BC">বুক (টপ)</div><div style="font-size: 26px; font-weight: 800"><span x-text="v.rec.chest"></span>"</div></div>
+<div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 14px"><div style="font-size: 14px; color: #CFC8BC">টপের লম্বা</div><div style="font-size: 26px; font-weight: 800"><span x-text="v.rec.top"></span>"</div></div>
+<div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 14px"><div style="font-size: 14px; color: #CFC8BC">কোমর (প্যান্ট)</div><div style="font-size: 26px; font-weight: 800"><span x-text="v.rec.waist"></span>"</div></div>
+<div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 14px"><div style="font-size: 14px; color: #CFC8BC">প্যান্টের লম্বা</div><div style="font-size: 26px; font-weight: 800"><span x-text="v.rec.pant"></span>"</div></div>
+<p style="grid-column: 1 / -1; margin: 0; font-size: 14px; color: #CFC8BC">দুই সাইজের মাঝামাঝি হলে, ঢিলেঢালা লুক চাইলে বড়টা নিন।</p>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="rev-h" style="background: #FFFFFF">
+<div class="pad" style="max-width: 1320px; margin: 0 auto; padding: 64px 32px">
+<div style="display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap; margin-bottom: 24px">
+<div><h2 id="rev-h" style="margin: 0 0 6px; font-size: 40px; font-weight: 900">ক্রেতারা যা বলছেন</h2><p style="margin: 0; color: #5A5650">শুধু আসল অর্ডার থেকে আসা রিভিউ</p></div>
+<div style="display: flex; align-items: center; gap: 12px"><span style="font-size: 44px; font-weight: 900">[4.X]</span><span style="font-size: 14px; color: #5A5650">৫ এর মধ্যে<br>[N]টি রিভিউ</span></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
+<figure style="margin: 0; background: #F3F0EA; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; gap: 12px; align-items: center"><div aria-hidden="true" style="width: 64px; height: 80px; border-radius: 12px; background: #E6DFD3; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #5A5650; text-align: center">ক্রেতার ছবি</div><div><div role="img" aria-label="৫ এর মধ্যে [X] স্টার" style="color: #8A1C2B; letter-spacing: 2px">★★★★★</div><div style="font-size: 13px; color: #5A5650">সাইজ M · কোমর ঠিক মাপে</div></div></div>
+<blockquote style="margin: 0; font-size: 16px; line-height: 1.6">[ক্রেতার আসল রিভিউ, অনুমতি নিয়ে]</blockquote>
+<figcaption style="font-size: 14px; color: #5A5650">[নাম], [শহর] · যাচাই করা অর্ডার</figcaption>
+</figure>
+<figure style="margin: 0; background: #F3F0EA; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; gap: 12px; align-items: center"><div aria-hidden="true" style="width: 64px; height: 80px; border-radius: 12px; background: #E6DFD3; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #5A5650; text-align: center">ক্রেতার ছবি</div><div><div role="img" aria-label="৫ এর মধ্যে [X] স্টার" style="color: #8A1C2B; letter-spacing: 2px">★★★★★</div><div style="font-size: 13px; color: #5A5650">সাইজ L · একটু ঢিলা</div></div></div>
+<blockquote style="margin: 0; font-size: 16px; line-height: 1.6">[ক্রেতার আসল রিভিউ]</blockquote>
+<figcaption style="font-size: 14px; color: #5A5650">[নাম], [শহর] · যাচাই করা অর্ডার</figcaption>
+</figure>
+<figure style="margin: 0; background: #F3F0EA; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; gap: 12px; align-items: center"><div aria-hidden="true" style="width: 64px; height: 80px; border-radius: 12px; background: #E6DFD3; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #5A5650; text-align: center">ক্রেতার ছবি</div><div><div role="img" aria-label="৫ এর মধ্যে [X] স্টার" style="color: #8A1C2B; letter-spacing: 2px">★★★★★</div><div style="font-size: 13px; color: #5A5650">সাইজ S · ঠিক মাপে</div></div></div>
+<blockquote style="margin: 0; font-size: 16px; line-height: 1.6">[ক্রেতার আসল রিভিউ]</blockquote>
+<figcaption style="font-size: 14px; color: #5A5650">[নাম], [শহর] · যাচাই করা অর্ডার</figcaption>
+</figure>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="faq-h" class="pad" style="max-width: 880px; margin: 0 auto; padding: 72px 32px">
+<h2 id="faq-h" style="margin: 0 0 24px; font-size: 40px; font-weight: 900">সাধারণ প্রশ্ন</h2>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<details style="background: #FFFFFF; border-radius: 16px; padding: 0 22px"><summary style="padding: 20px 0; font-weight: 700; font-size: 17px; display: flex; justify-content: space-between; gap: 12px">মেয়েদের বেগি প্যান্টের দাম কত?<span aria-hidden="true">+</span></summary><p style="margin: 0 0 20px; line-height: 1.7; color: #5A5650">Mormo BD-তে বেগি প্যান্ট ৯৯৯৳ থেকে শুরু। ডিজাইন আর কাপড় অনুযায়ী দাম আলাদা।</p></details>
+<details style="background: #FFFFFF; border-radius: 16px; padding: 0 22px"><summary style="padding: 20px 0; font-weight: 700; font-size: 17px; display: flex; justify-content: space-between; gap: 12px">ক্যাশ অন ডেলিভারি আছে?<span aria-hidden="true">+</span></summary><p style="margin: 0 0 20px; line-height: 1.7; color: #5A5650">হ্যাঁ। সারা বাংলাদেশে প্রোডাক্ট হাতে পেয়ে টাকা দিতে পারবেন।</p></details>
+<details style="background: #FFFFFF; border-radius: 16px; padding: 0 22px"><summary style="padding: 20px 0; font-weight: 700; font-size: 17px; display: flex; justify-content: space-between; gap: 12px">ডেলিভারি কতদিনে পাব, চার্জ কত?<span aria-hidden="true">+</span></summary><p style="margin: 0 0 20px; line-height: 1.7; color: #5A5650">ঢাকার ভেতরে [X] দিন, চার্জ [৳]। ঢাকার বাইরে [Y] দিন, চার্জ [৳]।</p></details>
+<details style="background: #FFFFFF; border-radius: 16px; padding: 0 22px"><summary style="padding: 20px 0; font-weight: 700; font-size: 17px; display: flex; justify-content: space-between; gap: 12px">সাইজ না মিললে কী করব?<span aria-hidden="true">+</span></summary><p style="margin: 0 0 20px; line-height: 1.7; color: #5A5650">[আপনার এক্সচেঞ্জ নীতি লিখুন]</p></details>
+</div>
+</section>
+</main>
+
+<footer style="background: #121212; color: #F3F0EA">
+<div class="pad" style="max-width: 1320px; margin: 0 auto; padding: 56px 32px 24px">
+<div style="font-weight: 900; font-size: 18vw; line-height: 0.8; letter-spacing: -0.02em; color: #1E1E1E; margin-bottom: 32px; white-space: nowrap; overflow: hidden" aria-hidden="true">MORMO</div>
+<div style="display: flex; flex-wrap: wrap; gap: 40px; padding-bottom: 72px">
+<div style="flex: 2 1 280px; display: flex; flex-direction: column; gap: 12px; min-width: 0">
+<p style="margin: 0; line-height: 1.7; color: #CFC8BC; max-width: 380px">বাংলাদেশের মেয়েদের জন্য স্ট্রিটওয়্যার। বেগি প্যান্ট, কো-অর্ড সেট, হুডি আর ক্রপ টপ।</p>
+<a href="#" style="color: #FFFFFF; display: inline-flex; align-items: center; gap: 8px; font-weight: 700; min-height: 44px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"></path></svg>WhatsApp: +880 1847-305873</a>
+</div>
+<nav aria-label="শপ" style="flex: 1 1 160px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 700; color: #FFFFFF">শপ</div><a href="category.html" style="color: #CFC8BC">Baggy Pant</a><a href="category.html" style="color: #CFC8BC">Crop Top Set</a><a href="category.html" style="color: #CFC8BC">Combo Set</a><a href="category.html" style="color: #CFC8BC">Winter Collection</a></nav>
+<nav aria-label="সাহায্য" style="flex: 1 1 160px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 700; color: #FFFFFF">সাহায্য</div><a href="#" style="color: #CFC8BC">অর্ডার ট্র্যাক করুন</a><a href="#" style="color: #CFC8BC">ডেলিভারি ও চার্জ</a><a href="#" style="color: #CFC8BC">রিফান্ড ও এক্সচেঞ্জ</a><a href="#" style="color: #CFC8BC">যোগাযোগ</a></nav>
+</div>
+</div>
+</footer>
+
+<nav aria-label="মোবাইল মেনু" class="mnav" style="position: sticky; bottom: 0; background: #FFFFFF; border-top: 1px solid #DCD6CC; justify-content: space-around; padding: 6px 0 10px; z-index: 25">
+<a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 12px; min-width: 64px; min-height: 44px; color: #8A1C2B; font-weight: 700"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7v9H4z"></path></svg>হোম</a>
+<a href="category.html" style="display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 12px; min-width: 64px; min-height: 44px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>ক্যাটাগরি</a>
+<a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 12px; min-width: 64px; min-height: 44px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"></path></svg>WhatsApp</a>
+<button type="button" @click="v.openCart($event)" style="display: flex; flex-direction: column; align-items: center; gap: 2px; font: inherit; font-size: 12px; min-width: 64px; min-height: 44px; border: 0; background: transparent; cursor: pointer; color: #121212"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14l-1.2 12.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8L5 7z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg>কার্ট (<span x-text="v.cartCount"></span>)</button>
+</nav>
+
+<template x-if="v.cartOpen">
+<div style="position: fixed; inset: 0; z-index: 50; display: flex; justify-content: flex-end">
+<button type="button" @click="v.closeCart($event)" aria-label="কার্ট বন্ধ করুন" style="position: absolute; inset: 0; border: 0; background: rgba(18,18,18,0.45); cursor: pointer"></button>
+<aside role="dialog" aria-label="আপনার কার্ট" style="position: relative; width: 420px; max-width: 100%; height: 100%; background: #FFFFFF; display: flex; flex-direction: column; box-shadow: -20px 0 50px rgba(0,0,0,0.2)">
+<div style="padding: 20px 22px; border-bottom: 1px solid #ECE7DF; display: flex; justify-content: space-between; align-items: center"><span style="font-size: 20px; font-weight: 900">আপনার কার্ট (<span x-text="v.cartCount"></span>)</span><button type="button" @click="v.closeCart($event)" aria-label="বন্ধ করুন" style="width: 44px; height: 44px; border: 0; background: #F3F0EA; border-radius: 999px; cursor: pointer; font-size: 20px; color: #121212">×</button></div>
+<template x-if="v.justAdded"><div role="status" style="margin: 14px 22px 0; background: #E7F1E4; color: #1F4D1A; border-radius: 12px; padding: 10px 14px; font-weight: 600; font-size: 14px"><span x-text="v.justAdded"></span></div></template>
+<div style="flex: 1; overflow-y: auto; padding: 16px 22px; display: flex; flex-direction: column; gap: 14px">
+<template x-for="it in v.cart">
+<div style="display: flex; gap: 12px; align-items: center">
+<img :src="it.img" alt="" style="width: 64px; height: 80px; object-fit: cover; border-radius: 10px; flex: none">
+<div style="flex: 1; min-width: 0"><div style="font-weight: 700; font-size: 14px; line-height: 1.4"><span x-text="it.name"></span></div><div style="font-size: 13px; color: #5A5650"><span x-text="it.meta"></span></div></div>
+<div style="display: flex; flex-direction: column; align-items: end; gap: 4px"><span style="font-weight: 800"><span x-text="it.price"></span></span><button type="button" @click="it.remove($event)" style="border: 0; background: transparent; font: inherit; font-size: 13px; color: #8A1C2B; cursor: pointer; text-decoration: underline; min-height: 32px">বাদ দিন</button></div>
+</div>
+</template>
+<template x-if="v.cartEmpty"><p style="color: #5A5650; text-align: center; padding: 40px 0">কার্ট খালি। একটা সাইজ বেছে যোগ করুন।</p></template>
+</div>
+<div style="border-top: 1px solid #ECE7DF; padding: 18px 22px 22px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; font-size: 17px"><span>সাবটোটাল</span><strong><span x-text="v.cartTotal"></span>৳</strong></div>
+<span style="font-size: 13px; color: #5A5650">ডেলিভারি চার্জ চেকআউটে যোগ হবে · ক্যাশ অন ডেলিভারি</span>
+<a href="checkout.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 999px; background: #121212; color: #FFFFFF; font-weight: 700; font-size: 17px">চেকআউট করুন →</a>
+</div>
+</aside>
+</div>
+</template>
+
+</div>
+</body>
+</html>
